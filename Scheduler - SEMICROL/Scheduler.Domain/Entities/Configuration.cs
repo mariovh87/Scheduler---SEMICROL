@@ -5,7 +5,7 @@ using static Scheduler.Domain.Common.SchedulerEnums;
 
 namespace Scheduler.Domain.Entities
 {
-    internal class Configuration
+    public class Configuration
     {
         internal bool enabled;
         internal DateTime? dateTime;

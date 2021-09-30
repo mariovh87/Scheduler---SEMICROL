@@ -1,10 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using EnsureThat;
+using System;
 
 namespace Scheduler.Domain.Entities
 {
-    internal class Output
+    public class Output
     {
+        private ExecutionTimes executionTimes;
+        public Output(ExecutionTimes executionTimes)
+        {
+            Ensure.That(executionTimes).IsNotNull();
+            this.executionTimes = executionTimes;
+        }
+
+        public DateTime NextExecutionTime()
+        {
+            return executionTimes.GetNextExecutionTime();
+        }
+
+        public DateTime DequeueNextExecutionTime()
+        {
+            return executionTimes.DequeueNextExecutionTime();
+        }
+
+        public string Description()
+        {
+            return OutputDescription.Description(this);
+        }
     }
 }
