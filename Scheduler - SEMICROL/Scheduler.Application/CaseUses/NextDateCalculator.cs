@@ -1,9 +1,10 @@
 ﻿using EnsureThat;
+using Scheduler.Application.Interfaces;
 using Scheduler.Domain.Entities;
 
 namespace Scheduler.Application.CaseUses
 {
-    internal class NextDateCalculator
+    internal class NextDateCalculator:INextDateCalculator
     {
         private readonly Input input;
         private readonly Configuration config;
