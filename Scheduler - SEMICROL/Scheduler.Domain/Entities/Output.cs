@@ -3,7 +3,7 @@ using System;
 
 namespace Scheduler.Domain.Entities
 {
-    internal class Output
+    public class Output
     {
         private ExecutionTimes executionTimes;
         public Output(ExecutionTimes executionTimes)
@@ -11,8 +11,6 @@ namespace Scheduler.Domain.Entities
             Ensure.That(executionTimes).IsNotNull();
             this.executionTimes = executionTimes;
         }
-
-        public ExecutionTimes ExecutionTimes {  get; private set; }
 
         public DateTime NextExecutionTime()
         {

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Scheduler.Domain.Entities
 {
-    internal class Input
+    public class Input
     {
     }
 }

@@ -5,7 +5,7 @@ using Scheduler.Domain.Common;
 
 namespace Scheduler.Domain.Entities
 {
-    internal class ExecutionTimes
+    public class ExecutionTimes
     {
         private Queue<DateTime> _executionTimes;
 
