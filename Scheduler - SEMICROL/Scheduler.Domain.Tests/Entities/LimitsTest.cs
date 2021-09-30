@@ -15,13 +15,5 @@ namespace Scheduler.Domain.Tests.Entities
             Action newLimits = () => new Limits(startDate, endDate);
             newLimits.Should().Throw<ArgumentException>();
         }
-
-        [Fact]
-        public void static_new_should_return_instance()
-        {
-            DateTime startDate = new DateTime(10, 10, 2021);
-            DateTime endDate = new DateTime(10, 10, 2022);
-            Limits.New(startDate, endDate).Should().BeEquivalentTo(new Limits(startDate, endDate));
-        }
     }
 }

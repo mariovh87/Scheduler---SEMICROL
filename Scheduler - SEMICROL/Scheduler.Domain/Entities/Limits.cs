@@ -13,12 +13,6 @@ namespace Scheduler.Domain.Entities
             this.startDate = startDate;
             this.endDate = endDate;
         }
-
-        public static Limits New(DateTime startDate, DateTime? endDate)
-        {
-            return new Limits(startDate, endDate);
-        }
-
         private void ValidateDates()
         {
             Ensure.That(startDate).HasValue();
@@ -27,5 +21,6 @@ namespace Scheduler.Domain.Entities
                 Ensure.That<DateTime>(startDate).IsGt(endDate.Value);
             }
         }
+
     }
 }
