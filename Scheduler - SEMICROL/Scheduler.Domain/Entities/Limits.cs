@@ -1,5 +1,6 @@
 ﻿using System;
 using EnsureThat;
+using Scheduler.Domain.Common;
 
 namespace Scheduler.Domain.Entities
 {
@@ -9,23 +10,13 @@ namespace Scheduler.Domain.Entities
         internal DateTime? endDate;
         public Limits(DateTime startDate, DateTime? endDate)
         {
-            this.ValidateDates();
+            startDate.EnsureIsValidDate();
+            endDate.EnsureIsValidDate();
+            DateTimeExtensionMethods.ValidateRangeStartEnd(startDate, endDate); 
+
             this.startDate = startDate;
             this.endDate = endDate;
         }
-
-        public static Limits New(DateTime startDate, DateTime? endDate)
-        {
-            return new Limits(startDate, endDate);
-        }
-
-        private void ValidateDates()
-        {
-            Ensure.That(startDate).HasValue();
-            if (endDate.HasValue)
-            {
-                Ensure.That<DateTime>(startDate).IsGt(endDate.Value);
-            }
-        }
+      
     }
 }
