@@ -6,10 +6,13 @@ namespace Scheduler.Domain.Entities
     public class Output
     {
         private ExecutionTimes executionTimes;
-        public Output(ExecutionTimes executionTimes)
+        private string description;
+        public Output(ExecutionTimes executionTimes, string description)
         {
             Ensure.That(executionTimes).IsNotNull();
+            Ensure.That(description).IsNotEmptyOrWhiteSpace();
             this.executionTimes = executionTimes;
+            this.description = description;
         }
 
         public DateTime NextExecutionTime()
@@ -24,7 +27,7 @@ namespace Scheduler.Domain.Entities
 
         public string Description()
         {
-            return OutputDescription.Description(this);
+            return this.description;
         }
     }
 }

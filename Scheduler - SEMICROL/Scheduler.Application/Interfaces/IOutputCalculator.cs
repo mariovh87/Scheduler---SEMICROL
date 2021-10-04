@@ -5,8 +5,8 @@ using System.Text;
 
 namespace Scheduler.Application.Interfaces
 {
-    internal interface INextDateCalculator
+    internal interface IOutputCalculator
     {
-        Output CalculateNextDate();
+        Output CalculateOutput(Input input, Configuration config, Limits limits);
     }
 }

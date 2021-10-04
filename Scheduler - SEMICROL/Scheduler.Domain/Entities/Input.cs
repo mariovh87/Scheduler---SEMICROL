@@ -16,5 +16,10 @@ namespace Scheduler.Domain.Entities
             Ensure.That(currentDate).HasValue();
         }
 
+        public DateTime CurrentDate()
+        {
+            return this.currentDate;
+        }
+
     }
 }

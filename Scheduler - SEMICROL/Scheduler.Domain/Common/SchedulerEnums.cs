@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Scheduler.Domain.Common
 {
-    internal class SchedulerEnums
+    public class SchedulerEnums
     {
-        internal enum ConfigurationType { Once, Recurring }
-        internal enum RecurringType { Daily, Weekly, Monthly}
+        public enum ConfigurationType { Once, Recurring }
+        public enum RecurringType { Daily, Weekly, Monthly}
     }
 }

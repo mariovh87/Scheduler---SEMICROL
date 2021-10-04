@@ -14,16 +14,21 @@ namespace Scheduler.Domain.Entities
            _executionTimes = new Queue<DateTime>();
         }
 
-        public DateTime GetNextExecutionTime()
+        public DateTime GetNextExecution()
         {
             _executionTimes.HasItems();
             return this._executionTimes.Peek();
         }
 
-        public DateTime DequeueNextExecutionTime()
+        public DateTime DequeueNextExecution()
         {
             _executionTimes.HasItems();
             return this._executionTimes.Dequeue();
+        }
+
+        public void QueueExecution(DateTime execution)
+        {
+            _executionTimes.Enqueue(execution);
         }
     }
 }
