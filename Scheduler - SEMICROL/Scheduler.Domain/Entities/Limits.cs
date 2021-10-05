@@ -6,8 +6,8 @@ namespace Scheduler.Domain.Entities
 {
     public class Limits
     {
-        internal DateTime startDate;
-        internal DateTime? endDate;
+        private readonly DateTime startDate;
+        private readonly DateTime? endDate;
         public Limits(DateTime startDate, DateTime? endDate)
         {
             startDate.EnsureIsValidDate();

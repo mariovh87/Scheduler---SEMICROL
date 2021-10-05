@@ -40,7 +40,7 @@ namespace Scheduler.Application.CaseUses
 
         private Output CalculateNext(DateTime nextDate, RecurringType occurs, int every, DateTime startDate)
         {
-            ExecutionTimes executions = new ExecutionTimes();
+            ExecutionTimesQueue executions = new ExecutionTimesQueue();
             executions.QueueExecution(nextDate);
             return new Output(executions, OutputDescriptionFormatter.Description(nextDate, ConfigurationType.Once, occurs, every, startDate)); 
         }

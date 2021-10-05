@@ -9,11 +9,11 @@ namespace Scheduler.Domain.Entities
 {
     public class Configuration
     {
-        internal bool enabled;
-        internal DateTime? dateTime;
-        internal int every;
-        internal ConfigurationType type;
-        internal RecurringType occurs;
+        private readonly bool enabled;
+        private readonly DateTime? dateTime;
+        private readonly int every;
+        private readonly ConfigurationType type;
+        private readonly RecurringType occurs;
 
         public Configuration(bool enabled, DateTime? dateTime, int every, ConfigurationType type, RecurringType occurs)
         {
@@ -26,6 +26,10 @@ namespace Scheduler.Domain.Entities
             this.every = every; 
             this.type = type;   
             this.occurs = occurs;
+        }
+        public bool Enabled()
+        {
+            return this.enabled;
         }
 
         public RecurringType Occurs()
@@ -48,16 +52,16 @@ namespace Scheduler.Domain.Entities
             return this.every;
         }
 
-        public void ValidateDateTime(bool enabled, DateTime? dateTime, ConfigurationType type)
+        public static void ValidateDateTime(bool enabled, DateTime? dateTime, ConfigurationType type)
         {
-            if (this.enabled && type.Equals(ConfigurationType.Once))
+            if (enabled && type.Equals(ConfigurationType.Once))
             {
                 dateTime.EnsureIsValidDate();
             }
         }
-        public void ValidateRecurrence(bool enabled, int every, ConfigurationType type)
+        public static void ValidateRecurrence(bool enabled, int every, ConfigurationType type)
         {
-            if (this.enabled && type.Equals(ConfigurationType.Recurring))
+            if (enabled && type.Equals(ConfigurationType.Recurring))
             {
                 Ensure.That<int>(every).IsGt(0);
             }

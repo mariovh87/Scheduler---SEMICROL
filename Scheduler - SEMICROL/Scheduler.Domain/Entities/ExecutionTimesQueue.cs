@@ -5,11 +5,11 @@ using Scheduler.Domain.Common;
 
 namespace Scheduler.Domain.Entities
 {
-    public class ExecutionTimes
+    public class ExecutionTimesQueue
     {
         private Queue<DateTime> _executionTimes;
 
-        public ExecutionTimes()
+        public ExecutionTimesQueue()
         {
            _executionTimes = new Queue<DateTime>();
         }

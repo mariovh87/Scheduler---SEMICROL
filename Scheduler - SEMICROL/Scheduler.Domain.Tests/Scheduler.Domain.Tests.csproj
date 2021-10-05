@@ -23,8 +23,4 @@
     <ProjectReference Include="..\Scheduler.Domain\Scheduler.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Entities\" />
-  </ItemGroup>
-
 </Project>

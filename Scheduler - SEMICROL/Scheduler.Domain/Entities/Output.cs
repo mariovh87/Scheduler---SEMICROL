@@ -5,9 +5,9 @@ namespace Scheduler.Domain.Entities
 {
     public class Output
     {
-        private ExecutionTimes executionTimes;
+        private ExecutionTimesQueue executionTimes;
         private string description;
-        public Output(ExecutionTimes executionTimes, string description)
+        public Output(ExecutionTimesQueue executionTimes, string description)
         {
             Ensure.That(executionTimes).IsNotNull();
             Ensure.That(description).IsNotEmptyOrWhiteSpace();
@@ -15,14 +15,14 @@ namespace Scheduler.Domain.Entities
             this.description = description;
         }
 
-        public DateTime NextExecutionTime()
+        public DateTime NextExecution()
         {
-            return executionTimes.GetNextExecutionTime();
+            return executionTimes.GetNextExecution();
         }
 
-        public DateTime DequeueNextExecutionTime()
+        public DateTime DequeueNextExecution()
         {
-            return executionTimes.DequeueNextExecutionTime();
+            return executionTimes.DequeueNextExecution();
         }
 
         public string Description()
