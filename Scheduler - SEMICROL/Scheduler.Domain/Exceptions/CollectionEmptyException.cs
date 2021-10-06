@@ -4,8 +4,9 @@ using System.Text;
 
 namespace Scheduler.Domain.Exceptions
 {
-    internal class CollectionEmptyException:Exception
+    internal class CollectionEmptyException:DomainException
     {
+        public CollectionEmptyException() : base("La colección está vacía") { }
         public CollectionEmptyException(string message) : base(message) { }
     }
 }

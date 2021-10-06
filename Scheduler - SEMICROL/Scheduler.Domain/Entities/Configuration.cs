@@ -17,10 +17,10 @@ namespace Scheduler.Domain.Entities
 
         public Configuration(bool enabled, DateTime? dateTime, int every, ConfigurationType type, RecurringType occurs)
         {
-            Ensure.That<ConfigurationType>(type).IsNotDefault();
-            Ensure.That<RecurringType>(occurs).IsNotDefault();
-            this.ValidateDateTime(enabled, dateTime, type);
-            this.ValidateRecurrence(enabled, every, type); 
+            Ensure.That(type).IsNotDefault();
+            Ensure.That(occurs).IsNotDefault();
+            ValidateDateTime(enabled, dateTime, type);
+            ValidateRecurrence(enabled, every, type); 
             this.enabled = enabled;
             this.dateTime = dateTime;
             this.every = every; 

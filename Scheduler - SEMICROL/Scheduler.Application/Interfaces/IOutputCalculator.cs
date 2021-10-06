@@ -1,12 +1,11 @@
 ﻿using Scheduler.Domain.Entities;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using static Scheduler.Domain.Common.SchedulerEnums;
 
 namespace Scheduler.Application.Interfaces
 {
     internal interface IOutputCalculator
     {
-        Output CalculateOutput(Input input, Configuration config, Limits limits);
+        Output CalculateOutput(Domain.Entities.Scheduler scheduler);
     }
 }

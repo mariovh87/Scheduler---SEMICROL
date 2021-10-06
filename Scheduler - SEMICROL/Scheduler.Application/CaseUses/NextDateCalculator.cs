@@ -7,48 +7,70 @@ using static Scheduler.Domain.Common.SchedulerEnums;
 
 namespace Scheduler.Application.CaseUses
 {
-    internal class NextDateCalculator:IOutputCalculator
+    public class NextDateCalculator:IOutputCalculator
     { 
         public NextDateCalculator()
         {}
 
-        public  Output CalculateOutput(Input input, Configuration config, Limits limits)
+        public  Output CalculateOutput(Domain.Entities.Scheduler scheduler)
         {
-            Ensure.That<Input>(input).IsNotNull();
-            Ensure.That<Configuration>(config).IsNotNull();
-            Ensure.That<Limits>(limits).IsNotNull();
-
-            if (config.Type().Equals(ConfigurationType.Recurring))
+            if (scheduler.Configuration().Type().Equals(ConfigurationType.Recurring))
             {
-                this.ValidateInputDateLimits(input, limits);
-                return this.CalculateRecurring(config.DateTime().Value, config.Occurs(), config.Every(), limits.StartDate(), limits.EndDate().Value);
+                return this.CalculateRecurring(scheduler.Configuration().DateTime().Value,
+                    scheduler.Configuration().Occurs(), scheduler.Configuration().Every(),
+                    scheduler.Limits().StartDate(), scheduler.Limits().EndDate().Value);
             }
 
-            if (config.Type().Equals(ConfigurationType.Once))
+            if (scheduler.Configuration().Type().Equals(ConfigurationType.Once))
             {
-                return this.CalculateNext(config.DateTime().Value, config.Occurs(), config.Every(), limits.StartDate());
+                return this.CalculateNext(scheduler.Configuration().DateTime().Value,
+                    scheduler.Configuration().Occurs(), scheduler.Configuration().Every(),
+                    scheduler.Limits().StartDate());
             }
 
             return null;
         }
 
-        private Output CalculateRecurring(DateTime nextDate, RecurringType occurs, int every, DateTime startDate, DateTime endDate)
+        internal Output CalculateRecurring(DateTime date, RecurringType occurs, int every, DateTime startDate, DateTime endDate)
         {
-            //TODO - Calculate ExecutionTimes adding "every" months, years or days in function of occurs
+            return new Output(CalculateExecutionTimesQueue(date, occurs, every, startDate, endDate),
+                OutputDescriptionFormatter.Description(date, ConfigurationType.Once, occurs, every, startDate));
+        }
+
+        internal ExecutionTimesQueue CalculateExecutionTimesQueue(DateTime date, RecurringType occurs, int every, DateTime startDate, DateTime endDate)
+        {
+            ExecutionTimesQueue queue = new ExecutionTimesQueue();
+            while (date <= endDate)
+            {
+                AddRecurrenceToDate(date, occurs, every);
+                queue.QueueExecution(date);
+            }
             return null;
         }
 
-        private Output CalculateNext(DateTime nextDate, RecurringType occurs, int every, DateTime startDate)
+        internal DateTime AddRecurrenceToDate(DateTime date, RecurringType occurs, int every)
+        {
+            switch (occurs)
+            {
+                case RecurringType.Daily:
+                    date.AddDays(every);          
+                    break;
+                case RecurringType.Monthly:
+                    date.AddMonths(every);
+                    break;
+                case RecurringType.Yearly:
+                    date.AddYears(every);
+                    break;
+            }
+            return date;
+        }
+
+        internal Output CalculateNext(DateTime nextDate, RecurringType occurs, int every, DateTime startDate)
         {
             ExecutionTimesQueue executions = new ExecutionTimesQueue();
             executions.QueueExecution(nextDate);
             return new Output(executions, OutputDescriptionFormatter.Description(nextDate, ConfigurationType.Once, occurs, every, startDate)); 
         }
-
-        public void ValidateInputDateLimits(Input input, Limits limits)
-        {
-            limits.EndDate().EnsureIsValidDate();
-            Ensure.That<DateTime>(input.CurrentDate()).IsInRange(limits.StartDate(), limits.EndDate().Value);
-        }
+        
     }
 }

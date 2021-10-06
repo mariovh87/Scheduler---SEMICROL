@@ -27,10 +27,10 @@ namespace Scheduler.Domain.Entities
                     return every > 1
                         ? "Month"
                         : "Months";
-                case RecurringType.Weekly:
+                case RecurringType.Yearly:
                     return every > 1
-                        ? "Week"
-                        : "Weeks";
+                        ? "Year"
+                        : "Years";
                 case RecurringType.Daily:
                     return every > 1
                         ? "Day"
