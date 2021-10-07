@@ -1,5 +1,6 @@
 ﻿using EnsureThat;
 using Scheduler.Domain.Common;
+using Scheduler.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,6 +20,7 @@ namespace Scheduler.Domain.Entities
         {
             Ensure.That(type).IsNotDefault();
             Ensure.That(occurs).IsNotDefault();
+            Ensure.That(every, nameof(every), o => o.WithException(new DomainException("Every should be a positive number"))).IsGt(0);
             ValidateDateTime(enabled, dateTime, type);
             ValidateRecurrence(enabled, every, type); 
             this.enabled = enabled;

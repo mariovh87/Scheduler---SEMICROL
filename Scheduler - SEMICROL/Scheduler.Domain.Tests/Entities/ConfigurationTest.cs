@@ -1,13 +1,11 @@
 ﻿using FluentAssertions;
-using System.Configuration;
-using Scheduler.Domain.Entities;
 using Xunit;
 using static Scheduler.Domain.Common.SchedulerEnums;
 using System;
 
 namespace Scheduler.Domain.Tests.Entities
 {
-    internal class ConfigurationTest
+    public class ConfigurationTest
     {
         [Fact]
         public void if_config_type_is_once_datetime_is_null_should_validate_date_should_throw_exception()

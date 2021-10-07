@@ -6,7 +6,7 @@ namespace Scheduler.Domain.Exceptions
 {
     internal class CollectionEmptyException:DomainException
     {
-        public CollectionEmptyException() : base("La colección está vacía") { }
+        public CollectionEmptyException() : base("The collection is empty") { }
         public CollectionEmptyException(string message) : base(message) { }
     }
 }

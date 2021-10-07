@@ -5,7 +5,7 @@ using Scheduler.Domain.Common;
 
 namespace Scheduler.Domain.Tests.Common
 {
-    internal class DateTimeExtensionMethodsTest
+    public class DateTimeExtensionMethodsTest
     {
         [Fact]
         public void min_value_is_not_valid_date()

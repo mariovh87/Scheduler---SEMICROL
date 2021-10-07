@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Scheduler.Domain.Exceptions
 {
-    internal abstract class DomainException:Exception
+    internal class DomainException:Exception
     {
         public DomainException(string message) : base(message) { }
     }

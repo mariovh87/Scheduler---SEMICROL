@@ -1,28 +1,24 @@
 ﻿using EnsureThat;
+using Scheduler.Domain.Common;
 using System;
 
 namespace Scheduler.Domain.Entities
 {
     public class Output
     {
-        private ExecutionTimesQueue executionTimes;
-        private string description;
-        public Output(ExecutionTimesQueue executionTimes, string description)
+        private readonly DateTime executionTime;
+        private readonly string description;
+        public Output(DateTime executionTime, string description)
         {
-            Ensure.That(executionTimes).IsNotNull();
+            executionTime.EnsureIsValidDate();
             Ensure.That(description).IsNotEmptyOrWhiteSpace();
-            this.executionTimes = executionTimes;
+            this.executionTime = executionTime;
             this.description = description;
         }
 
         public DateTime NextExecution()
         {
-            return executionTimes.GetNextExecution();
-        }
-
-        public DateTime DequeueNextExecution()
-        {
-            return executionTimes.DequeueNextExecution();
+            return executionTime;
         }
 
         public string Description()

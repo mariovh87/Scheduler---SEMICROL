@@ -1,19 +1,15 @@
-﻿using EnsureThat;
+﻿using Scheduler.Domain.Common;
 using System;
 
 namespace Scheduler.Domain.Entities
 {
     public class Input
     {
-        internal DateTime currentDate;
+        private readonly DateTime currentDate;
         public Input(DateTime currentDate)
         {
-            this.ValidateDate();
+            currentDate.EnsureIsValidDate();
             this.currentDate = currentDate;
-        }
-        private void ValidateDate()
-        {
-            Ensure.That(currentDate).HasValue();
         }
 
         public DateTime CurrentDate()

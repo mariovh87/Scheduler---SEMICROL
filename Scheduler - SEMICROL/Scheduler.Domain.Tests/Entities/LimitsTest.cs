@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Scheduler.Domain.Tests.Entities
 {
-    internal class LimitsTest
+    public class LimitsTest
     {
 
         [Fact]

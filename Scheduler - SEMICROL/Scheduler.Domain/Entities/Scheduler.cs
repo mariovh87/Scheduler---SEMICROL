@@ -1,7 +1,5 @@
 ﻿using EnsureThat;
 using Scheduler.Domain.Common;
-using Scheduler.Domain.Exceptions;
-using System;
 using static Scheduler.Domain.Common.SchedulerEnums;
 
 namespace Scheduler.Domain.Entities
