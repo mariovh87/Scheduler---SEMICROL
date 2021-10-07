@@ -40,10 +40,10 @@ namespace Scheduler.Domain.Tests.Common
         [Fact]
         public void not_allow_startDate_greater_than_endDate()
         {
-            DateTime startDate = new DateTime(10, 10, 2021);
-            DateTime endDate = new DateTime(01, 01, 2020);
+            DateTime startDate = new DateTime(2021, 10, 10);
+            DateTime endDate = new DateTime(2020, 01, 01);
             Action newRange = () => DateTimeExtensionMethods.ValidateRangeStartEnd(startDate, endDate);
-            newRange.Should().Throw<ArgumentException>();
+            newRange.Should().Throw<Exceptions.DateRangeException>();
         }
     }
 }

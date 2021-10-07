@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Scheduler.Domain.Exceptions
 {
-    internal class DateRangeException : DomainException
+    public class DateRangeException : DomainException
     {
         public DateRangeException(string message) : base(message) { }
     }

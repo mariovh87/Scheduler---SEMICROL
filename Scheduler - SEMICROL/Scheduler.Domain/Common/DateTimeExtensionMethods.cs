@@ -24,7 +24,7 @@ namespace Scheduler.Domain.Common
             Ensure.That(startDate).HasValue();
             if (endDate.HasValue)
             {
-                Ensure.That(startDate, nameof(startDate), o=>o.WithException(new DateRangeException("Start date should be greather than end date"))).IsGt(endDate.Value);
+                Ensure.That(startDate, nameof(startDate), o=>o.WithException(new DateRangeException("Start date should be greather than end date"))).IsLt(endDate.Value);
             }
         }
 

@@ -13,7 +13,7 @@ namespace Scheduler.Domain.Tests.Entities
         {
             Action newLimits = () =>
             {
-                new Limits(new DateTime(01, 01, 20221), new DateTime(01, 01, 2020));
+                new Limits(new DateTime(2021, 01, 01), new DateTime(2020, 01, 01));
             };
             newLimits.Should().Throw<ArgumentException>();
         }

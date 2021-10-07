@@ -2,6 +2,7 @@
 using Xunit;
 using static Scheduler.Domain.Common.SchedulerEnums;
 using System;
+using Scheduler.Domain.Exceptions;
 
 namespace Scheduler.Domain.Tests.Entities
 {
@@ -18,7 +19,7 @@ namespace Scheduler.Domain.Tests.Entities
         [Fact]
         public void if_config_type_is_once_datetime_is_not_null_should_validate_date_should_not_throw_exception()
         {
-            Action act = () => Domain.Entities.Configuration.ValidateDateTime(true, new DateTime(01,01,2021), ConfigurationType.Once);
+            Action act = () => Domain.Entities.Configuration.ValidateDateTime(true, new DateTime(2021, 01, 01), ConfigurationType.Once);
 
             act.Should().NotThrow<ArgumentException>();
         }
