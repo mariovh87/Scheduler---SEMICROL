@@ -25,16 +25,16 @@ namespace Scheduler.Domain.Entities
             {
                 case RecurringType.Monthly:
                     return every > 1
-                        ? "Month"
-                        : "Months";
+                        ? "Months"
+                        : "Month";
                 case RecurringType.Yearly:
                     return every > 1
-                        ? "Year"
-                        : "Years";
+                        ? "Years"
+                        : "Year";
                 case RecurringType.Daily:
                     return every > 1
-                        ? "Day"
-                        : "Days";
+                        ? "Days"
+                        : "Day";
             }
             return String.Empty;
         }

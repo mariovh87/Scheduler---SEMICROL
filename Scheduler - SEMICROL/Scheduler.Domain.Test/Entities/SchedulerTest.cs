@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using FluentAssertions;
 using Scheduler.Domain.Entities;
+using Scheduler.Domain.Exceptions;
 using Xunit;
 using static Scheduler.Domain.Common.SchedulerEnums;
 
@@ -47,25 +48,30 @@ namespace Scheduler.Domain.Tests.Entities
         }
 
         [Fact]
-        public void input_date_outside_limits_should_throw_exception()
+        public void input_date_outside_limits_should_throw_exception_when_is_recurring()
         {
-            Input input = new Input(new DateTime(01, 01, 2020));
-            Configuration config = new Configuration(true, new DateTime(01, 01, 2021), 1, ConfigurationType.Once, RecurringType.Daily);
-            Limits limits = new Limits(new DateTime(01, 01, 2021), new DateTime(01, 01, 2025));
+            Input input = new Input(new DateTime(2020, 01, 01));
+            Configuration config = new Configuration(true, new DateTime(2020, 01, 01), 1, ConfigurationType.Recurring, RecurringType.Daily);
+            Limits limits = new Limits(new DateTime(2021, 01, 01), new DateTime(2025, 01, 01));
+             Action validateInputDateLimits = () =>
+             {
+                 new Domain.Entities.Scheduler(input, config, limits);
+             };
+            validateInputDateLimits.Should().Throw<DateRangeException>();
+        }
 
+        [Fact]
+        public void input_date_inside_limits_should_not_throw_exception_when_is_recurring()
+        {
+            Input input = new Input(new DateTime(2022, 01, 01));
+            Configuration config = new Configuration(true, new DateTime(2022, 01, 01), 1, ConfigurationType.Recurring, RecurringType.Daily);
+            Limits limits = new Limits(new DateTime(2021, 01, 01), new DateTime(2025, 01, 01));
             Type type = typeof(Domain.Entities.Scheduler);
-            var scheduler = Activator.CreateInstance(type, input, config, limits);
-            MethodInfo method = type.GetMethods(BindingFlags.NonPublic | BindingFlags.Instance)
-            .Where(x => x.Name == "ValidateInputDateLimits" && x.IsPrivate)
-            .First();
-
-
             Action validateInputDateLimits = () =>
             {
-                method.Invoke(scheduler, new object[] { input, config, limits });
+                new Domain.Entities.Scheduler(input, config, limits);
             };
-            validateInputDateLimits.Should().Throw<ArgumentException>();
-
+            validateInputDateLimits.Should().NotThrow();
         }
     }
 }

@@ -18,8 +18,6 @@ namespace Scheduler.Domain.Entities
 
         public Configuration(bool enabled, DateTime? dateTime, int every, ConfigurationType type, RecurringType occurs)
         {
-            Ensure.That(type).IsNotDefault();
-            Ensure.That(occurs).IsNotDefault();
             Ensure.That(every, nameof(every), o => o.WithException(new DomainException("Every should be a positive number"))).IsGt(0);
             ValidateDateTime(enabled, dateTime, type);
             ValidateRecurrence(enabled, every, type); 

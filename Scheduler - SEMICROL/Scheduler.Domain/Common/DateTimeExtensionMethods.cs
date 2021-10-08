@@ -16,7 +16,7 @@ namespace Scheduler.Domain.Common
         public static void EnsureIsValidDate(this DateTime? date)
         {
             Ensure.That(date).HasValue();
-            date.EnsureIsValidDate();
+            date.Value.EnsureIsValidDate();
         }
 
         public static void ValidateRangeStartEnd(DateTime startDate, DateTime? endDate)

@@ -11,7 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6323AEE9-4BD
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{1773160A-FF0B-476B-96ED-197075DC027B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scheduler.Domain.Test", "Scheduler.Domain.Test\Scheduler.Domain.Test.csproj", "{BFE3D5E0-901B-4E3B-9710-4BA6BF1610BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scheduler.Domain.Test", "Scheduler.Domain.Test\Scheduler.Domain.Test.csproj", "{BFE3D5E0-901B-4E3B-9710-4BA6BF1610BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scheduler.Application.Test", "Scheduler.Application.Test\Scheduler.Application.Test.csproj", "{EC145791-A972-4D73-ADA5-C23EBFBE1940}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,10 @@ Global
 		{BFE3D5E0-901B-4E3B-9710-4BA6BF1610BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFE3D5E0-901B-4E3B-9710-4BA6BF1610BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFE3D5E0-901B-4E3B-9710-4BA6BF1610BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC145791-A972-4D73-ADA5-C23EBFBE1940}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC145791-A972-4D73-ADA5-C23EBFBE1940}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC145791-A972-4D73-ADA5-C23EBFBE1940}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC145791-A972-4D73-ADA5-C23EBFBE1940}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +45,7 @@ Global
 		{5A289AFE-E1BB-4DB9-95E3-8B6F1076C06F} = {6323AEE9-4BD7-4803-BD1A-B7B5C306B809}
 		{B5B3788D-538E-4BEB-8511-985E8DD0E3B9} = {6323AEE9-4BD7-4803-BD1A-B7B5C306B809}
 		{BFE3D5E0-901B-4E3B-9710-4BA6BF1610BF} = {1773160A-FF0B-476B-96ED-197075DC027B}
+		{EC145791-A972-4D73-ADA5-C23EBFBE1940} = {1773160A-FF0B-476B-96ED-197075DC027B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9326409A-EAC5-4636-BA1E-696E13D4A10D}

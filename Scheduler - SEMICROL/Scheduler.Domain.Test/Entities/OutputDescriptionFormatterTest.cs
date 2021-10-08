@@ -22,7 +22,7 @@ namespace Scheduler.Domain.Tests.Entities
         public void occurs_text_returns_get_recurrent_type_string_if_configuration_type_is_recurring()
         {
             OutputDescriptionFormatter.GetOccurs(ConfigurationType.Once, RecurringType.Daily, 1)
-                .Should().Be(OutputDescriptionFormatter.GetRecurringTypeString(RecurringType.Daily, 1));
+                .Should().Be("Once");
         }
 
         [Fact]
@@ -49,7 +49,7 @@ namespace Scheduler.Domain.Tests.Entities
         [Fact]
         public void get_recurring_type_should_return_years_if_occurs_yearly_with_every_bigger_than_one()
         {
-            OutputDescriptionFormatter.GetRecurringTypeString(RecurringType.Monthly, 2)
+            OutputDescriptionFormatter.GetRecurringTypeString(RecurringType.Yearly, 2)
                 .Should().Be("Years");
         }
 
@@ -70,12 +70,14 @@ namespace Scheduler.Domain.Tests.Entities
         [Fact]
         public void description_should_return_formated_string()
         {
-            FieldInfo field = typeof(Domain.Entities.Scheduler).GetField("format");
-            
-            OutputDescriptionFormatter.Description(new DateTime(01,01,2021), ConfigurationType.Once, RecurringType.Daily, 2, new DateTime(01,01,2020))
+            var methods = typeof(OutputDescriptionFormatter)
+    .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
+            var format = methods.Where(name => name.Name.Equals("format")).First();
+
+            OutputDescriptionFormatter.Description(new DateTime(2021, 01,01), ConfigurationType.Once, RecurringType.Daily, 2, new DateTime(2020, 01,01))
                 .Should()
-                .Be(String.Format(field.GetValue(null).ToString(),
-                    OutputDescriptionFormatter.GetOccurs(ConfigurationType.Once, RecurringType.Daily, 2), new DateTime(01, 01, 2021), new DateTime(01, 01, 2020)));
+                .Be(String.Format(format.GetValue(null).ToString(),
+                    OutputDescriptionFormatter.GetOccurs(ConfigurationType.Once, RecurringType.Daily, 2), new DateTime(2021, 01, 01), new DateTime(2020, 01, 01)));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Scheduler.Domain.Entities;
+using Scheduler.Domain.Exceptions;
 using System;
 using Xunit;
 
@@ -15,7 +16,7 @@ namespace Scheduler.Domain.Tests.Entities
             {
                 new Limits(new DateTime(2021, 01, 01), new DateTime(2020, 01, 01));
             };
-            newLimits.Should().Throw<ArgumentException>();
+            newLimits.Should().Throw<DateRangeException>();
         }
     }
 }
