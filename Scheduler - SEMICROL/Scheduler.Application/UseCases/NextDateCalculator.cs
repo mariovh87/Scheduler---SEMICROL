@@ -28,19 +28,20 @@ namespace Scheduler.Application.CaseUses
 
         private static DateTime AddRecurrenceToDate(DateTime date, RecurringType occurs, int every)
         {
+            DateTime outputDate = new DateTime();
             switch (occurs)
             {
                 case RecurringType.Daily:
-                    date.AddDays(every);          
+                    outputDate = date.AddDays(every);          
                     break;
                 case RecurringType.Monthly:
-                    date.AddMonths(every);
+                    outputDate = date.AddMonths(every);
                     break;
                 case RecurringType.Yearly:
-                    date.AddYears(every);
+                    outputDate = date.AddYears(every);
                     break;
             }
-            return date;
+            return outputDate;
         }
         
     }
