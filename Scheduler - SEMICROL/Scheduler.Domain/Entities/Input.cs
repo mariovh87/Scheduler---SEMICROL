@@ -1,20 +1,16 @@
-﻿using Scheduler.Domain.Common;
+﻿using Semicrol.Scheduler.Domain.Common;
 using System;
 
-namespace Scheduler.Domain.Entities
+namespace Semicrol.Scheduler.Domain.Entities
 {
     public class Input
     {
-        private readonly DateTime currentDate;
+        public DateTime CurrentDate { get; private set; }
+
         public Input(DateTime currentDate)
         {
             currentDate.EnsureIsValidDate();
-            this.currentDate = currentDate;
-        }
-
-        public DateTime CurrentDate()
-        {
-            return this.currentDate;
+            this.CurrentDate = currentDate;
         }
 
     }

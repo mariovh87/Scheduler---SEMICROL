@@ -1,10 +1,10 @@
 ﻿using FluentAssertions;
-using Scheduler.Domain.Entities;
-using Scheduler.Domain.Exceptions;
+using Semicrol.Scheduler.Domain.Entities;
+using Semicrol.Scheduler.Domain.Exceptions;
 using System;
 using Xunit;
 
-namespace Scheduler.Domain.Tests.Entities
+namespace Semicrol.Scheduler.Domain.Tests.Entities
 {
     public class LimitsTest
     {

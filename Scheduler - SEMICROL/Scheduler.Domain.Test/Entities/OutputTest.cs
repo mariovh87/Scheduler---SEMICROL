@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
-using Scheduler.Domain.Entities;
+using Semicrol.Scheduler.Domain.Entities;
 using System;
 using Xunit;
 
-namespace Scheduler.Domain.Tests.Entities
+namespace Semicrol.Scheduler.Domain.Tests.Entities
 {
     public class OutputTest
     {

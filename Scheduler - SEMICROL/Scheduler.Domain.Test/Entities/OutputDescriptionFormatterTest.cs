@@ -1,14 +1,14 @@
 ﻿using FluentAssertions;
-using Scheduler.Domain.Entities;
+using Semicrol.Scheduler.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using Xunit;
-using static Scheduler.Domain.Common.SchedulerEnums;
+using static Semicrol.Scheduler.Domain.Common.SchedulerEnums;
 
-namespace Scheduler.Domain.Tests.Entities
+namespace Semicrol.Scheduler.Domain.Tests.Entities
 {
     public class OutputDescriptionFormatterTest
     {

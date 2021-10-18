@@ -1,30 +1,21 @@
 ﻿using System;
 using EnsureThat;
-using Scheduler.Domain.Common;
+using Semicrol.Scheduler.Domain.Common;
 
-namespace Scheduler.Domain.Entities
+namespace Semicrol.Scheduler.Domain.Entities
 {
     public class Limits
     {
-        private readonly DateTime startDate;
-        private readonly DateTime? endDate;
-        public Limits(DateTime startDate, DateTime? endDate)
+        public DateTime StartDate { get; private set; }
+        public DateTime? EndDate { get; private set; }
+
+        public Limits(DateTime startDate, DateTime endDate)
         {
             startDate.EnsureIsValidDate();
-            DateTimeExtensionMethods.ValidateRangeStartEnd(startDate, endDate); 
+            DateTimeExtensionMethods.EnsureIsValidRange(startDate, endDate); 
 
-            this.startDate = startDate;
-            this.endDate = endDate;
-        }
-      
-        public DateTime StartDate()
-        {
-            return startDate;
-        }
-
-        public DateTime? EndDate()
-        {
-            return endDate;
+            this.StartDate = startDate;
+            this.EndDate = endDate;
         }
     }
 }

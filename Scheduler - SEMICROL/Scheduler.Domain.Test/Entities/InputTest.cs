@@ -1,9 +1,10 @@
 ﻿using FluentAssertions;
-using Scheduler.Domain.Entities;
+using Semicrol.Scheduler.Domain.Entities;
+using Semicrol.Scheduler.Domain.Exceptions;
 using System;
 using Xunit;
 
-namespace Scheduler.Domain.Tests.Entities
+namespace Semicrol.Scheduler.Domain.Tests.Entities
 {
     public class InputTest
     {
@@ -18,8 +19,8 @@ namespace Scheduler.Domain.Tests.Entities
             {
                 new Input(DateTime.MaxValue);
             };
-            minValueParameterAction.Should().Throw<ArgumentException>();
-            maxValueParameterAction.Should().Throw<ArgumentException>();
+            minValueParameterAction.Should().Throw<InvalidDateException>();
+            maxValueParameterAction.Should().Throw<InvalidDateException>();
         }
     }
 }

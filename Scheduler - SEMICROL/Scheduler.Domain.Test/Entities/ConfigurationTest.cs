@@ -1,10 +1,10 @@
 ﻿using FluentAssertions;
 using Xunit;
-using static Scheduler.Domain.Common.SchedulerEnums;
+using static Semicrol.Scheduler.Domain.Common.SchedulerEnums;
 using System;
-using Scheduler.Domain.Exceptions;
+using Semicrol.Scheduler.Domain.Exceptions;
 
-namespace Scheduler.Domain.Tests.Entities
+namespace Semicrol.Scheduler.Domain.Tests.Entities
 {
     public class ConfigurationTest
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Scheduler.Domain.Exceptions
+namespace Semicrol.Scheduler.Domain.Exceptions
 {
     public class DomainException:Exception
     {

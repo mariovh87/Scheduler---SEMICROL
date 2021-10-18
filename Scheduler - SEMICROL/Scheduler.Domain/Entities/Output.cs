@@ -1,29 +1,20 @@
 ﻿using EnsureThat;
-using Scheduler.Domain.Common;
+using Semicrol.Scheduler.Domain.Common;
 using System;
 
-namespace Scheduler.Domain.Entities
+namespace Semicrol.Scheduler.Domain.Entities
 {
     public class Output
     {
-        private readonly DateTime executionTime;
-        private readonly string description;
+        public DateTime ExecutionTime { get; private set; }
+        public string Description { get; private set; }
+
         public Output(DateTime executionTime, string description)
         {
             executionTime.EnsureIsValidDate();
             Ensure.That(description).IsNotEmptyOrWhiteSpace();
-            this.executionTime = executionTime;
-            this.description = description;
-        }
-
-        public DateTime NextExecution()
-        {
-            return executionTime;
-        }
-
-        public string Description()
-        {
-            return this.description;
+            this.ExecutionTime = executionTime;
+            this.Description = description;
         }
     }
 }

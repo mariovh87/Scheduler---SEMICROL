@@ -5,11 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Scheduler.Domain\Scheduler.Domain.csproj" />
+    <PackageReference Include="Ensure.That" Version="10.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
+    <None Remove="Entities\Configuration\" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Folder Include="Entities\WeeklyConfiguration\" />
+  </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 ﻿using System;
-using static Scheduler.Domain.Common.SchedulerEnums;
+using static Semicrol.Scheduler.Domain.Common.SchedulerEnums;
 
-namespace Scheduler.Domain.Entities
+namespace Semicrol.Scheduler.Domain.Entities
 {
     public static class OutputDescriptionFormatter
     {

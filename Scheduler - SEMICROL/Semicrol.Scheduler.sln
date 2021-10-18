@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31717.71
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scheduler.Domain", "Scheduler.Domain\Scheduler.Domain.csproj", "{5A289AFE-E1BB-4DB9-95E3-8B6F1076C06F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Semicrol.Scheduler.Domain", "Scheduler.Domain\Semicrol.Scheduler.Domain.csproj", "{5A289AFE-E1BB-4DB9-95E3-8B6F1076C06F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scheduler.Application", "Scheduler.Application\Scheduler.Application.csproj", "{B5B3788D-538E-4BEB-8511-985E8DD0E3B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Semicrol.Scheduler.Application", "Scheduler.Application\Semicrol.Scheduler.Application.csproj", "{B5B3788D-538E-4BEB-8511-985E8DD0E3B9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6323AEE9-4BD7-4803-BD1A-B7B5C306B809}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{1773160A-FF0B-476B-96ED-197075DC027B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scheduler.Domain.Test", "Scheduler.Domain.Test\Scheduler.Domain.Test.csproj", "{BFE3D5E0-901B-4E3B-9710-4BA6BF1610BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Semicrol.Scheduler.Domain.Test", "Scheduler.Domain.Test\Semicrol.Scheduler.Domain.Test.csproj", "{BFE3D5E0-901B-4E3B-9710-4BA6BF1610BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scheduler.Application.Test", "Scheduler.Application.Test\Scheduler.Application.Test.csproj", "{EC145791-A972-4D73-ADA5-C23EBFBE1940}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Semicrol.Scheduler.Application.Test", "Scheduler.Application.Test\Semicrol.Scheduler.Application.Test.csproj", "{EC145791-A972-4D73-ADA5-C23EBFBE1940}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
