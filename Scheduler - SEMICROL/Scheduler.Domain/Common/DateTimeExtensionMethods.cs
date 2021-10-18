@@ -17,9 +17,15 @@ namespace Semicrol.Scheduler.Domain.Common
 
         public static void EnsureIsValidDate(this DateTime? date)
         {
+            Ensure.That(date).HasValue();
+            date.Value.EnsureIsValidDate();
+        }
+
+        public static void EnsureValueIsValidDate(this DateTime? date)
+        {
             if (date.HasValue)
             {
-                date.Value.EnsureIsValidDate();
+                EnsureIsValidDate(date.Value);
             }
         }
 
