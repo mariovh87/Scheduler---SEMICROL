@@ -6,46 +6,20 @@ namespace Semicrol.Scheduler.Domain.Entities
     public class WeeklyConfiguration
     {
         public int Every { get; private set; }
-        private readonly ConfigDaysOfWeek daysOfWeek;
+        public ConfigDaysOfWeek daysOfWeek { get; private set; }
+
         public WeeklyConfiguration(int every)
         {
             Ensure.That(every).IsGt(0);
             this.Every = every;
-            daysOfWeek = new ConfigDaysOfWeek();
-        }
-        public bool IsMondayChecked()
-        {
-            return daysOfWeek.IsMondayChecked();
+            this.daysOfWeek = new ConfigDaysOfWeek();
         }
 
-        public bool IsTuesdayChecked()
+        public WeeklyConfiguration(int every, ConfigDaysOfWeek daysOfWeek)
         {
-            return daysOfWeek.IsTuesdayChecked();
-        }
-
-        public bool IsWednesdayChecked()
-        {
-            return daysOfWeek.IsWednesdayChecked();
-        }
-
-        public bool IsThursdayChecked()
-        {
-            return daysOfWeek.IsThursdayChecked();
-        }
-
-        public bool IsFridayChecked()
-        {
-            return daysOfWeek.IsFridayChecked();
-        }
-
-        public bool IsSaturdayChecked()
-        {
-            return daysOfWeek.IsSaturdayChecked();
-        }
-
-        public bool IsSundayChecked()
-        {
-            return daysOfWeek.IsSundayChecked();
-        }
+            Ensure.That(every).IsGt(0);
+            this.Every = every;
+            this.daysOfWeek = daysOfWeek;
+        }      
     }
 }

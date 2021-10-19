@@ -4,7 +4,7 @@ using Semicrol.Scheduler.Domain.Exceptions;
 using System;
 using Xunit;
 
-namespace Semicrol.Scheduler.Domain.Tests.Entities
+namespace Semicrol.Scheduler.Domain.Test.Entities
 {
     public class InputTest
     {

@@ -4,7 +4,7 @@ using FluentAssertions;
 using Semicrol.Scheduler.Domain.Common;
 using Semicrol.Scheduler.Domain.Exceptions;
 
-namespace Semicrol.Scheduler.Domain.Tests.Common
+namespace Semicrol.Scheduler.Domain.Test.Common
 {
     public class DateTimeExtensionMethodsTest
     {
@@ -241,7 +241,7 @@ namespace Semicrol.Scheduler.Domain.Tests.Common
             DateTime startDate = new DateTime(2021, 10, 10);
             DateTime endDate = new DateTime(2020, 01, 01);
             Action newRange = () => DateTimeExtensionMethods.EnsureIsValidRange(startDate, endDate);
-            newRange.Should().Throw<Exceptions.DateRangeException>();
+            newRange.Should().Throw<DateRangeException>();
         }
     }
 }

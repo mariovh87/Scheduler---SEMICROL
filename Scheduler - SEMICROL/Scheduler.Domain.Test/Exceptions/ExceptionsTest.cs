@@ -33,7 +33,6 @@ namespace Semicrol.Scheduler.Domain.Test.Exceptions
             invocation.Should().Throw<InvalidDateException>().WithMessage(message);
         }
 
-
         [Fact]
         public void domain_exception_message_should_be_parameter_string()
         {

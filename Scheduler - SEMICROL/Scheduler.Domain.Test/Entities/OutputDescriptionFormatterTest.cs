@@ -8,7 +8,7 @@ using System.Text;
 using Xunit;
 using static Semicrol.Scheduler.Domain.Common.SchedulerEnums;
 
-namespace Semicrol.Scheduler.Domain.Tests.Entities
+namespace Semicrol.Scheduler.Domain.Test.Entities
 {
     public class OutputDescriptionFormatterTest
     {
@@ -70,8 +70,7 @@ namespace Semicrol.Scheduler.Domain.Tests.Entities
         [Fact]
         public void description_should_return_formated_string()
         {
-            var methods = typeof(OutputDescriptionFormatter)
-    .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
+            var methods = typeof(OutputDescriptionFormatter).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
             var format = methods.Where(name => name.Name.Equals("format")).First();
 
             OutputDescriptionFormatter.Description(new DateTime(2021, 01,01), ConfigurationType.Once, RecurringType.Daily, 2, new DateTime(2020, 01,01))

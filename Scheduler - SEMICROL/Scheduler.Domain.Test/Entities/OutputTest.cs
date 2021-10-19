@@ -1,9 +1,10 @@
 ﻿using FluentAssertions;
 using Semicrol.Scheduler.Domain.Entities;
+using Semicrol.Scheduler.Domain.Exceptions;
 using System;
 using Xunit;
 
-namespace Semicrol.Scheduler.Domain.Tests.Entities
+namespace Semicrol.Scheduler.Domain.Test.Entities
 {
     public class OutputTest
     {
@@ -14,7 +15,7 @@ namespace Semicrol.Scheduler.Domain.Tests.Entities
             {
                 new Output(DateTime.MinValue, "Description");
             };
-            dateNotValid.Should().Throw<ArgumentException>();
+            dateNotValid.Should().Throw<InvalidDateException>();
         }
 
         [Fact]

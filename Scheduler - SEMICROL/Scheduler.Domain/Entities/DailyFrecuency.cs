@@ -16,9 +16,9 @@ namespace Semicrol.Scheduler.Domain.Entities
 
         public DailyFrecuency(DateTime? occursOnceAt, int frecuency, DailyRecurrence every, DateTime? startingAt, DateTime? endsAt)
         {
-            occursOnceAt.EnsureIsValidDate();
-            startingAt.EnsureIsValidDate();
-            endsAt.EnsureIsValidDate();
+            occursOnceAt.EnsureValueIsValidDate();
+            startingAt.EnsureValueIsValidDate();
+            endsAt.EnsureValueIsValidDate();
             Ensure.That(frecuency).IsGt(0);
             if(startingAt.HasValue)
             {

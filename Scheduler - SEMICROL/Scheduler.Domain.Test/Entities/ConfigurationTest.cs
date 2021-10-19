@@ -2,9 +2,9 @@
 using Xunit;
 using static Semicrol.Scheduler.Domain.Common.SchedulerEnums;
 using System;
-using Semicrol.Scheduler.Domain.Exceptions;
 
-namespace Semicrol.Scheduler.Domain.Tests.Entities
+
+namespace Semicrol.Scheduler.Domain.Test.Entities
 {
     public class ConfigurationTest
     {
