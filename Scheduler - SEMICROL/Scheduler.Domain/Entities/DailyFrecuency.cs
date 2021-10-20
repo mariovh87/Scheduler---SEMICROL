@@ -8,24 +8,23 @@ namespace Semicrol.Scheduler.Domain.Entities
 {
     public class DailyFrecuency
     {
+        public bool occursOnce{ get; private set;}
+        public bool occursEvery{ get; private set; }
         public DateTime? OccursOnceAt { get; private set; }
         public DailyRecurrence Every { get; private set; }
         public DateTime? StartingAt { get; private set; }
         public DateTime? EndsAt { get; private set; }
         public int Frecuency { get; private set; }
 
-        public DailyFrecuency(DateTime? occursOnceAt, int frecuency, DailyRecurrence every, DateTime? startingAt, DateTime? endsAt)
+        public DailyFrecuency(bool occursOnce, bool occursEvery, DateTime? occursOnceAt, int frecuency, DailyRecurrence every, DateTime? startingAt, DateTime? endsAt)
         {
-            occursOnceAt.EnsureValueIsValidDate();
-            startingAt.EnsureValueIsValidDate();
-            endsAt.EnsureValueIsValidDate();
-            Ensure.That(frecuency).IsGt(0);
-            if(startingAt.HasValue)
-            {
-                DateTimeExtensionMethods.EnsureIsValidRange(startingAt.Value, endsAt.Value);
-            }
-            CheckAllDatesInvalidValue(occursOnceAt, startingAt, endsAt);
+            EnsureOnlyOneOptionIsChecked(occursOnce, occursEvery);
+            EnsureOccursOnceAtIsValidDate(occursOnce, occursOnceAt);
+            EnsureStartEndDatesAreValidIfOccursEvery(occursEvery, startingAt, endsAt);
+            EnsureEveryIsValidValue(occursEvery, frecuency);
 
+            this.occursOnce = occursOnce;
+            this.occursEvery = occursEvery;
             this.OccursOnceAt = occursOnceAt;
             this.Frecuency = frecuency;
             this.Every = every;
@@ -33,15 +32,39 @@ namespace Semicrol.Scheduler.Domain.Entities
             this.EndsAt = endsAt;
         }
 
-        private void CheckAllDatesInvalidValue(DateTime? occursOnceAt, DateTime? startingAt, DateTime? endsAt)
+        private static void EnsureOccursOnceAtIsValidDate(bool occursOnce, DateTime? occursOnceAt)
         {
-            if (occursOnceAt.HasValidValue() ||
-                ((startingAt.HasValidValue() && endsAt.HasValidValue())
-                && DateTimeExtensionMethods.IsValidRange(startingAt.Value, endsAt.Value)))
+            if (occursOnce)
             {
-                return;
+                occursOnceAt.EnsureIsValidDate();
             }
-            throw new DomainException("OccursOnceAt should be a valid date or startingAt and endsAt should be a valid range");
+        }
+
+        private static void EnsureStartEndDatesAreValidIfOccursEvery(bool occursEvery, DateTime? startingAt, DateTime? endsAt)
+        {
+            if (occursEvery)
+            {
+                startingAt.EnsureIsValidDate();
+                endsAt.EnsureIsValidDate();
+                DateTimeExtensionMethods.EnsureIsValidRange(startingAt.Value, endsAt.Value);
+            }
+        }
+
+        private static void EnsureEveryIsValidValue(bool occursEvery, int frecuency)
+        {
+            if (occursEvery)
+            {
+                Ensure.That(frecuency).IsGt(0);
+            }
+        }
+
+        private static void EnsureOnlyOneOptionIsChecked(bool occursOnce, bool occursEvery)
+        {
+            if (occursOnce && occursEvery
+                || !occursOnce && occursEvery)
+            {
+                throw new DomainException($"At least one of theese options:{nameof(occursOnce)},{nameof(occursEvery)}  must be true");
+            }
         }
     }
 }
