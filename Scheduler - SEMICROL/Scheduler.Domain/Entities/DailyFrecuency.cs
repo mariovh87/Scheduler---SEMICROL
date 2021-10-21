@@ -10,18 +10,17 @@ namespace Semicrol.Scheduler.Domain.Entities
     {
         public bool occursOnce{ get; private set;}
         public bool occursEvery{ get; private set; }
-        public DateTime? OccursOnceAt { get; private set; }
+        public TimeOnly? OccursOnceAt { get; private set; }
         public DailyRecurrence Every { get; private set; }
-        public DateTime? StartingAt { get; private set; }
-        public DateTime? EndsAt { get; private set; }
+        public TimeOnly? StartingAt { get; private set; }
+        public TimeOnly? EndsAt { get; private set; }
         public int Frecuency { get; private set; }
 
-        public DailyFrecuency(bool occursOnce, bool occursEvery, DateTime? occursOnceAt, int frecuency, DailyRecurrence every, DateTime? startingAt, DateTime? endsAt)
+        public DailyFrecuency(bool occursOnce, bool occursEvery, TimeOnly? occursOnceAt, int frecuency, DailyRecurrence every, TimeOnly? startingAt, TimeOnly? endsAt)
         {
             EnsureOnlyOneOptionIsChecked(occursOnce, occursEvery);
-            EnsureOccursOnceAtIsValidDate(occursOnce, occursOnceAt);
-            EnsureStartEndDatesAreValidIfOccursEvery(occursEvery, startingAt, endsAt);
             EnsureEveryIsValidValue(occursEvery, frecuency);
+            EnsureTimeOnlyRangeIsValid(startingAt, endsAt);
 
             this.occursOnce = occursOnce;
             this.occursEvery = occursEvery;
@@ -30,24 +29,6 @@ namespace Semicrol.Scheduler.Domain.Entities
             this.Every = every;
             this.StartingAt = startingAt;
             this.EndsAt = endsAt;
-        }
-
-        private static void EnsureOccursOnceAtIsValidDate(bool occursOnce, DateTime? occursOnceAt)
-        {
-            if (occursOnce)
-            {
-                occursOnceAt.EnsureIsValidDate();
-            }
-        }
-
-        private static void EnsureStartEndDatesAreValidIfOccursEvery(bool occursEvery, DateTime? startingAt, DateTime? endsAt)
-        {
-            if (occursEvery)
-            {
-                startingAt.EnsureIsValidDate();
-                endsAt.EnsureIsValidDate();
-                DateTimeExtensionMethods.EnsureIsValidRange(startingAt.Value, endsAt.Value);
-            }
         }
 
         private static void EnsureEveryIsValidValue(bool occursEvery, int frecuency)
@@ -64,6 +45,14 @@ namespace Semicrol.Scheduler.Domain.Entities
                 || !occursOnce && occursEvery)
             {
                 throw new DomainException($"At least one of theese options:{nameof(occursOnce)},{nameof(occursEvery)}  must be true");
+            }
+        }
+
+        private static void EnsureTimeOnlyRangeIsValid(TimeOnly? startingAt, TimeOnly? endsAt)
+        {
+            if (startingAt.HasValue && endsAt.HasValue)
+            {
+                Ensure.That(startingAt.Value).IsLt(endsAt.Value);
             }
         }
     }

@@ -71,7 +71,7 @@ namespace Semicrol.Scheduler.Domain.Test.Entities
         public void is_tuesday_checked_should_return_false_after_initialize()
         {
             ConfigDaysOfWeek days = new ConfigDaysOfWeek();
-            days.GetTuesday().Should().Be(false);
+            days.IsTuesdayChecked().Should().Be(false);
         }
 
         [Fact]

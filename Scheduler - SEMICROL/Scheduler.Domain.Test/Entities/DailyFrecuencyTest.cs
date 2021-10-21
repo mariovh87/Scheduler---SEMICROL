@@ -11,10 +11,10 @@ namespace Semicrol.Scheduler.Domain.Test.Entities
 {
     public class DailyFrecuencyTest
     {
-        private readonly DateTime? occursOnceAt = new DateTime(2021, 12, 24);
+        private readonly TimeOnly? occursOnceAt = new TimeOnly(05, 30, 00);
         private readonly int frecuency = 10;
-        private readonly DateTime? startingAt = new DateTime(2021, 12, 1);
-        private readonly DateTime? endsAt = new DateTime(2021, 12, 5);
+        private readonly TimeOnly? startingAt = new TimeOnly(01, 00, 00);
+        private readonly TimeOnly? endsAt = new TimeOnly(02, 00, 00);
         private readonly DailyRecurrence every = DailyRecurrence.Hours;
 
         [Fact]
@@ -26,87 +26,15 @@ namespace Semicrol.Scheduler.Domain.Test.Entities
             };
             dailyFrecuency.Should().NotThrow<ArgumentException>();
         }
-
+     
         [Fact]
-        public void if_occurs_once_is_true_ensure_occurs_once_at_is_valid_date_should_throw_exception_if_occurs_once_is_not_valid_date()
+        public void if_occurs_every_is_false_ensure_start_end_times_only_should_not_throw_exception_if_valid_is_valid_range()
         {
             var methods = typeof(DailyFrecuency).GetMethods(BindingFlags.NonPublic | BindingFlags.Static);
-            var occursOnceValidator = methods.Where(name => name.Name.Equals("EnsureOccursOnceAtIsValidDate")).First();
-            try
-            {
-                occursOnceValidator.Invoke(null, new object[] { true, DateTime.MinValue });
-            }
-            catch (TargetInvocationException e)
-            {
-                e.InnerException.Should().BeOfType<InvalidDateException>();
-            }
-        }
-
-        [Fact]
-        public void if_occurs_once_is_false_occurs_once_at_should_not_be_validated()
-        {
-            var methods = typeof(DailyFrecuency).GetMethods(BindingFlags.NonPublic | BindingFlags.Static);
-            var occursOnceValidator = methods.Where(name => name.Name.Equals("EnsureOccursOnceAtIsValidDate")).First();
+            var occursOnceValidator = methods.Where(name => name.Name.Equals("EnsureTimeOnlyRangeIsValid")).First();
             Action dailyFrecuency = () =>
             {
-                occursOnceValidator.Invoke(null, new object[] { false, DateTime.MinValue });
-            };
-            dailyFrecuency.Should().NotThrow();
-        }
-
-        [Fact]
-        public void if_occurs_every_is_true_ensure_start_end_dates_are_valid_dates_should_throw_exception_if_start_date_is_not_valid_date()
-        {
-            var methods = typeof(DailyFrecuency).GetMethods(BindingFlags.NonPublic | BindingFlags.Static);
-            var occursOnceValidator = methods.Where(name => name.Name.Equals("EnsureStartEndDatesAreValidIfOccursEvery")).First();
-            try
-            {
-                occursOnceValidator.Invoke(null, new object[] { true, DateTime.MinValue, endsAt });
-            }
-            catch (TargetInvocationException e)
-            {
-                e.InnerException.Should().BeOfType<InvalidDateException>();
-            }
-        }
-
-        [Fact]
-        public void if_occurs_every_is_true_ensure_start_end_dates_are_valid_dates_should_throw_exception_if_end_date_is_not_valid_date()
-        {
-            var methods = typeof(DailyFrecuency).GetMethods(BindingFlags.NonPublic | BindingFlags.Static);
-            var occursOnceValidator = methods.Where(name => name.Name.Equals("EnsureStartEndDatesAreValidIfOccursEvery")).First();
-            try
-            {
-                occursOnceValidator.Invoke(null, new object[] { true, startingAt, DateTime.MaxValue });
-            }
-            catch (TargetInvocationException e)
-            {
-                e.InnerException.Should().BeOfType<InvalidDateException>();
-            }
-        }
-
-        [Fact]
-        public void if_occurs_every_is_false_ensure_start_end_dates_are_valid_dates_should_not_validate_dates()
-        {
-            var methods = typeof(DailyFrecuency).GetMethods(BindingFlags.NonPublic | BindingFlags.Static);
-            var occursOnceValidator = methods.Where(name => name.Name.Equals("EnsureStartEndDatesAreValidIfOccursEvery")).First();
-            try
-            {
-                occursOnceValidator.Invoke(null, new object[] { false, DateTime.MinValue, DateTime.MaxValue });
-            }
-            catch (TargetInvocationException e)
-            {
-                e.InnerException.Should().BeOfType<InvalidDateException>();
-            }
-        }
-
-        [Fact]
-        public void if_occurs_every_is_false_ensure_start_end_dates_are_valid_dates_should_not_throw_exception_if_valid_dates_and_is_valid_range()
-        {
-            var methods = typeof(DailyFrecuency).GetMethods(BindingFlags.NonPublic | BindingFlags.Static);
-            var occursOnceValidator = methods.Where(name => name.Name.Equals("EnsureStartEndDatesAreValidIfOccursEvery")).First();
-            Action dailyFrecuency = () =>
-            {
-                occursOnceValidator.Invoke(null, new object[] { true, startingAt, endsAt });
+                occursOnceValidator.Invoke(null, new object[] { startingAt, endsAt });
             };
             dailyFrecuency.Should().NotThrow();
         }
@@ -115,14 +43,14 @@ namespace Semicrol.Scheduler.Domain.Test.Entities
         public void if_occurs_every_is_false_ensure_start_end_dates_are_valid_dates_should_throw_exception_if_valid_dates_and_is_not_valid_range()
         {
             var methods = typeof(DailyFrecuency).GetMethods(BindingFlags.NonPublic | BindingFlags.Static);
-            var occursOnceValidator = methods.Where(name => name.Name.Equals("EnsureStartEndDatesAreValidIfOccursEvery")).First();
+            var occursOnceValidator = methods.Where(name => name.Name.Equals("EnsureTimeOnlyRangeIsValid")).First();
             try
             {
-                occursOnceValidator.Invoke(null, new object[] { false, endsAt, startingAt });
+                occursOnceValidator.Invoke(null, new object[] { endsAt, startingAt }).Should();
             }
-            catch (TargetInvocationException e)
+            catch (Exception e)
             {
-                e.InnerException.Should().BeOfType<InvalidDateException>();
+                e.InnerException.Should().BeOfType<ArgumentOutOfRangeException>();
             }
         }
 

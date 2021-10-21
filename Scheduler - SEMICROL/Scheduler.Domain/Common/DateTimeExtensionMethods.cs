@@ -88,5 +88,6 @@ namespace Semicrol.Scheduler.Domain.Common
                 Ensure.That(date, nameof(date), o => o.WithException(new DateRangeException("Date should be greather start date"))).IsGt(start);
             }
         }
+
     }
 }
