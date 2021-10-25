@@ -42,9 +42,9 @@ namespace Semicrol.Scheduler.Domain.Entities
         private static void EnsureOnlyOneOptionIsChecked(bool occursOnce, bool occursEvery)
         {
             if (occursOnce && occursEvery
-                || !occursOnce && occursEvery)
+                || !occursOnce && !occursEvery)
             {
-                throw new DomainException($"At least one of theese options:{nameof(occursOnce)},{nameof(occursEvery)}  must be true");
+                throw new DomainException($"Only one of theese options:{nameof(occursOnce)},{nameof(occursEvery)}  must be true");
             }
         }
 
