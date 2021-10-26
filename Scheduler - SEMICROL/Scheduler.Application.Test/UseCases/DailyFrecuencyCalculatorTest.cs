@@ -96,7 +96,7 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
 
             Action validate = () =>
             {
-                DailyFrecuencyCalculator.ValidateCalculateDailyFrecuency(dailyFrecuency, input);
+                DailyFrecuencyCalculator.ValidateCalculateDailyFrecuency(dailyFrecuency);
             };
             
             validate.Should().Throw<ArgumentException>();
@@ -114,7 +114,7 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
 
             Action validate = () =>
             {
-                DailyFrecuencyCalculator.ValidateCalculateDailyFrecuency(dailyFrecuency, input);
+                DailyFrecuencyCalculator.ValidateCalculateDailyFrecuency(dailyFrecuency);
             };
 
             validate.Should().Throw<ArgumentException>();
@@ -134,7 +134,7 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
 
             Action validate = () =>
             {
-                DailyFrecuencyCalculator.ValidateCalculateDailyFrecuency(dailyFrecuency, input);
+                DailyFrecuencyCalculator.ValidateCalculateDailyFrecuency(dailyFrecuency);
             };
 
             validate.Should().Throw<ArgumentException>();
@@ -173,7 +173,7 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
 
             Action validate = () =>
             {
-                DailyFrecuencyCalculator.ValidateCalculateDailyFrecuency(dailyFrecuency, input);
+                DailyFrecuencyCalculator.ValidateCalculateDailyFrecuency(dailyFrecuency);
             };
 
             validate.Should().Throw<ArgumentException>();

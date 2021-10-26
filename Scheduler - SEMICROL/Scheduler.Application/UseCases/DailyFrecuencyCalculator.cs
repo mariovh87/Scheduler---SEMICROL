@@ -27,7 +27,7 @@ namespace Semicrol.Scheduler.Application.UseCases
 
         public static Output CalculateDailyFrecuencyExecutions(DailyFrecuency dailyFrecuency, Input input)
         {
-            ValidateCalculateDailyFrecuency(dailyFrecuency, input);
+            ValidateCalculateDailyFrecuency(dailyFrecuency);
             Output output = new Output();          
             foreach (var EachDate in GetExecutions(input.CurrentDate, dailyFrecuency.StartingAt.Value, dailyFrecuency.EndsAt.Value, dailyFrecuency.Every, dailyFrecuency.Frecuency))
             {
@@ -36,7 +36,7 @@ namespace Semicrol.Scheduler.Application.UseCases
             return output;
         }
 
-        public static void ValidateCalculateDailyFrecuency(DailyFrecuency dailyFrecuency, Input input)
+        public static void ValidateCalculateDailyFrecuency(DailyFrecuency dailyFrecuency)
         {
             Ensure.That(dailyFrecuency.occursOnce).IsFalse();
             Ensure.That(dailyFrecuency.occursEvery).IsTrue();
