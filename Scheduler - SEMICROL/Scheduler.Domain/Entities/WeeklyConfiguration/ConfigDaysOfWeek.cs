@@ -131,7 +131,7 @@ namespace Semicrol.Scheduler.Domain.Entities
 
         public bool AreDaysChecked()
         {
-            return !this.Days.Any(d => d.IsChecked);
+            return this.Days.Any(d => d.IsChecked);
         }
     }    
 }

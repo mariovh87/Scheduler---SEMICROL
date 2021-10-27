@@ -15,16 +15,19 @@ namespace Semicrol.Scheduler.Application.UseCases
         public static IList<DateTime> GetAllRecurrences(DateTime currentDate, WeeklyConfiguration config, DateTime limitDate)
         {
             List<DateTime> recurrenceDays = new List<DateTime>();
-            do
+            DateTime startDate = currentDate;
+            DateTime lastRecurrenceDate = startDate;
+            while (CheckAddingWeeksIsBeforeLimitDate(lastRecurrenceDate, config.Every, limitDate))
             {
-                recurrenceDays.AddRange(GetNextRecurrence(currentDate, config, limitDate));
+                recurrenceDays.AddRange(GetNextRecurrence(startDate, config));
+                startDate = GetNextRecurrenceStartDate(startDate, config.Every);
+                lastRecurrenceDate = recurrenceDays.OrderBy(d=>d).LastOrDefault();
             }
-            while (CheckAddingWeeksIsBeforeLimitDate(recurrenceDays, config.Every, limitDate));
-
+            
             return recurrenceDays;
         }
 
-        private static IList<DateTime> GetNextRecurrence(DateTime currentDate, WeeklyConfiguration config, DateTime limitDate)
+        public static IList<DateTime> GetNextRecurrence(DateTime currentDate, WeeklyConfiguration config)
         {
             IList<DateTime> recurrenceDays = new List<DateTime>();
             DateTime recurrenceStartDate = currentDate;
@@ -37,8 +40,10 @@ namespace Semicrol.Scheduler.Application.UseCases
 
         public static IList<DateTime> AddDaysToRecurrenceList(DateTime currentDate, IList<ConfigDay> days)
         {
-            IList<DateTime> recurrenceDays = new List<DateTime>();
-            foreach (var configDay in days)
+            List<DateTime> recurrenceDays = new List<DateTime>();
+            DayOfWeek currentDayOfWeek = currentDate.DayOfWeek;
+
+            foreach (var configDay in SublistDaysOfWeekFromDate(currentDate,days))
             {
                 if (configDay.IsChecked)
                 {
@@ -72,5 +77,18 @@ namespace Semicrol.Scheduler.Application.UseCases
             int daysToAdd = ((int)day - (int)start.DayOfWeek + 7) % 7;
             return start.AddDays(daysToAdd);
         }
+
+        public static IList<ConfigDay> SublistDaysOfWeekFromDate(DateTime currentDate, IList<ConfigDay> days)
+        {
+            return days.Where(d => GetDayOfWeekIntConsideringSundayLast(d.Day) >= GetDayOfWeekIntConsideringSundayLast(currentDate.DayOfWeek)).ToList();
+        }
+
+        public static int GetDayOfWeekIntConsideringSundayLast(DayOfWeek day) 
+        {
+            return day == DayOfWeek.Sunday
+                             ? 7
+                             : (int)day;
+        }
+
     }
 }

@@ -191,6 +191,54 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
         [Fact]
         public void add_days_to_recurrence_list_should_return_all_days_if_all_checked()
         {
+            DateTime currentDate = new DateTime(2021, 01, 01);
+            DayOfWeek currentDayOfWeek = currentDate.DayOfWeek;
+            WeeklyConfiguration config = new WeeklyConfiguration(2);
+            config.DaysOfWeek.CheckMonday(true);
+            config.DaysOfWeek.CheckTuesday(true);
+            config.DaysOfWeek.CheckWednesday(true);
+            config.DaysOfWeek.CheckThursday(true);
+            config.DaysOfWeek.CheckFriday(true);
+            config.DaysOfWeek.CheckSaturday(true);
+            config.DaysOfWeek.CheckSunday(true);
+
+            IList<DateTime> expected = new List<DateTime>();
+            expected.Add(new DateTime(2021, 01, 01));
+            expected.Add(new DateTime(2021, 01, 02));
+            expected.Add(new DateTime(2021, 01, 03));
+            expected.Add(new DateTime(2021, 01, 05));
+            expected.Add(new DateTime(2021, 01, 04));
+            expected.Add(new DateTime(2021, 01, 06));
+            expected.Add(new DateTime(2021, 01, 07));
+
+            WeeklyRecurrenceCalculator.AddDaysToRecurrenceList(currentDate, config.DaysOfWeek.Days).Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public void add_days_to_recurrence_list_should_return_empty_list_if_no_days_checked()
+        {
+            DateTime currentdate = new DateTime(2021, 01, 01);
+            WeeklyConfiguration config = new WeeklyConfiguration(2);
+
+            IList<DateTime> expected = new List<DateTime>();
+
+            WeeklyRecurrenceCalculator.AddDaysToRecurrenceList(currentdate, config.DaysOfWeek.Days).Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public void get_next_recurrence_should_return_empty_list_if_no_days_checked()
+        {
+            DateTime currentdate = new DateTime(2021, 01, 01);
+            WeeklyConfiguration config = new WeeklyConfiguration(2);
+
+            IList<DateTime> expected = new List<DateTime>();
+
+            WeeklyRecurrenceCalculator.GetNextRecurrence(currentdate, config).Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public void get_next_recurrence_should_return_next_recurrence_of_days_checked()
+        {
             DateTime currentdate = new DateTime(2021, 01, 01);
             WeeklyConfiguration config = new WeeklyConfiguration(2);
             config.DaysOfWeek.CheckMonday(true);
@@ -210,18 +258,75 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
             expected.Add(new DateTime(2021, 01, 06));
             expected.Add(new DateTime(2021, 01, 07));
 
-            WeeklyRecurrenceCalculator.AddDaysToRecurrenceList(currentdate, config.DaysOfWeek.Days).Should().BeEquivalentTo(expected);
+            WeeklyRecurrenceCalculator.GetNextRecurrence(currentdate, config).Should().BeEquivalentTo(expected);
         }
 
         [Fact]
-        public void add_days_to_recurrence_list_should_return_empty_list_if_no_days_checked()
+        public void all_recurrences_should_return_empty_list_check_adding_weeks_to_last_date_is_later_than_limit_date()
         {
             DateTime currentdate = new DateTime(2021, 01, 01);
             WeeklyConfiguration config = new WeeklyConfiguration(2);
-
+            DateTime limit = new DateTime(2021, 01, 10);
             IList<DateTime> expected = new List<DateTime>();
 
-            WeeklyRecurrenceCalculator.AddDaysToRecurrenceList(currentdate, config.DaysOfWeek.Days).Should().BeEquivalentTo(expected);
+            WeeklyRecurrenceCalculator.GetAllRecurrences(currentdate, config, limit).Should().BeEquivalentTo(expected);
         }
+
+        [Fact]
+        public void all_recurrences_should_return_list_with_recurrence_of_days_checked_every_week_before_limit()
+        {
+            DateTime currentdate = new DateTime(2021, 01, 01);
+            WeeklyConfiguration config = new WeeklyConfiguration(2);
+            DateTime limit = new DateTime(2021, 01, 30);
+
+            config.DaysOfWeek.CheckMonday(true);
+            config.DaysOfWeek.CheckTuesday(true);
+            config.DaysOfWeek.CheckWednesday(true);
+            config.DaysOfWeek.CheckThursday(true);
+            config.DaysOfWeek.CheckFriday(true);
+            config.DaysOfWeek.CheckSaturday(true);
+            config.DaysOfWeek.CheckSunday(true);
+
+            IList<DateTime> expected = new List<DateTime>();
+            expected.Add(new DateTime(2021, 01, 01));
+            expected.Add(new DateTime(2021, 01, 02));
+            expected.Add(new DateTime(2021, 01, 03));
+            expected.Add(new DateTime(2021, 01, 05));
+            expected.Add(new DateTime(2021, 01, 04));
+            expected.Add(new DateTime(2021, 01, 06));
+            expected.Add(new DateTime(2021, 01, 07));
+
+            expected.Add(new DateTime(2021, 01, 15));
+            expected.Add(new DateTime(2021, 01, 16));
+            expected.Add(new DateTime(2021, 01, 17));
+            expected.Add(new DateTime(2021, 01, 18));
+            expected.Add(new DateTime(2021, 01, 19));
+            expected.Add(new DateTime(2021, 01, 20));
+            expected.Add(new DateTime(2021, 01, 21));
+
+            WeeklyRecurrenceCalculator.GetAllRecurrences(currentdate, config, limit).Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public void get_day_of_week_consider_sunday_last_should_return_7_if_sunday_instead_of_0()
+        {
+            WeeklyRecurrenceCalculator.GetDayOfWeekIntConsideringSundayLast(DayOfWeek.Sunday).Should().Be(7);
+
+        }
+        [Fact]
+        public void sublist_of_days_of_week_from_date_should_return_sublist_of_later_days_of_parameter_current_date()
+        {
+            DateTime currenDate = new DateTime(2021, 01, 01);
+            WeeklyConfiguration config = new WeeklyConfiguration(2);
+            IList<ConfigDay> expected = new List<ConfigDay>();
+            expected.Add(new ConfigDay(DayOfWeek.Friday, false));
+            expected.Add(new ConfigDay(DayOfWeek.Saturday, false));
+            expected.Add(new ConfigDay(DayOfWeek.Sunday, false));
+
+
+            WeeklyRecurrenceCalculator.SublistDaysOfWeekFromDate(currenDate, config.DaysOfWeek.Days).Should().BeEquivalentTo(expected);
+
+        }
+
     }
 }
