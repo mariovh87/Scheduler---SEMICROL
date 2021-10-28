@@ -61,7 +61,7 @@ namespace Semicrol.Scheduler.Domain.Test.Entities
             days.CheckFriday(true);
             int every = 2;
 
-            string expected = "Occurs every 2 weeks Monday,Thursday and Friday";
+            string expected = "Occurs every 2 weeks on Monday,Thursday and Friday";
             OutputDescriptionFormatter.GetWeeklyConfigurationDescription(every, days.Days).Should().Be(expected);
         }
 
