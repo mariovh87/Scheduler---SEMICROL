@@ -13,70 +13,96 @@ namespace Semicrol.Scheduler.Domain.Test.Entities
     public class OutputDescriptionFormatterTest
     {
         [Fact]
-        public void occurs_text_returns_once_if_configuration_type_is_once()
+        public void get_days_of_week_string_should_return_string_join_separated_by_comas_and_last_of_checked_days()
         {
-            OutputDescriptionFormatter.GetOccurs(ConfigurationType.Once, RecurringType.Daily, 1).Should().Be(ConfigurationType.Once.ToString());
+            ConfigDaysOfWeek days = new ConfigDaysOfWeek();
+            days.CheckMonday(true);
+            days.CheckTuesday(true);
+            days.CheckWednesday(true);
+            days.CheckThursday(true);
+            days.CheckFriday(true);
+            days.CheckSaturday(true);
+            days.CheckSunday(true);
+
+            string expected = "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday and Sunday";
+
+            OutputDescriptionFormatter.GetDaysOfWeekString(days.Days).Should().BeEquivalentTo(expected);
         }
 
         [Fact]
-        public void occurs_text_returns_get_recurrent_type_string_if_configuration_type_is_recurring()
+        public void get_days_of_week_string_should_return_string_day_if_only_one_checked()
         {
-            OutputDescriptionFormatter.GetOccurs(ConfigurationType.Once, RecurringType.Daily, 1)
-                .Should().Be("Once");
+            ConfigDaysOfWeek days = new ConfigDaysOfWeek();
+            days.CheckMonday(true);
+
+            string expected = "Monday";
+
+            OutputDescriptionFormatter.GetDaysOfWeekString(days.Days).Should().BeEquivalentTo(expected);
         }
 
         [Fact]
-        public void get_recurring_type_should_return_month_if_occurs_monthly()
+        public void get_days_of_week_string_should_return_string_day_and_last_if_2_days_checked()
         {
-            OutputDescriptionFormatter.GetRecurringTypeString(RecurringType.Monthly, 1)
-                .Should().Be("Month");
+            ConfigDaysOfWeek days = new ConfigDaysOfWeek();
+            days.CheckMonday(true);
+            days.CheckFriday(true);
+
+            string expected = "Monday and Friday";
+
+            OutputDescriptionFormatter.GetDaysOfWeekString(days.Days).Should().BeEquivalentTo(expected);
         }
 
         [Fact]
-        public void get_recurring_type_should_return_months_if_occurs_monthly_with_every_bigger_than_one()
+        public void get_weekly_configuration_description_should_return_formated_string()
         {
-            OutputDescriptionFormatter.GetRecurringTypeString(RecurringType.Monthly, 2)
-                .Should().Be("Months");
+            ConfigDaysOfWeek days = new ConfigDaysOfWeek();
+            days.CheckMonday(true);
+            days.CheckThursday(true);
+            days.CheckFriday(true);
+            int every = 2;
+
+            string expected = "Occurs every 2 weeks Monday,Thursday and Friday";
+            OutputDescriptionFormatter.GetWeeklyConfigurationDescription(every, days.Days).Should().Be(expected);
         }
 
         [Fact]
-        public void get_recurring_type_should_return_year_if_occurs_yearly()
+        public void get_daily_recurrence_description_should_return_formated_string()
         {
-            OutputDescriptionFormatter.GetRecurringTypeString(RecurringType.Yearly, 1)
-                .Should().Be("Year");
+            TimeOnly start = new TimeOnly(04,00,00);
+            TimeOnly end = new TimeOnly(08, 00, 00);
+            DailyRecurrence recurrence = DailyRecurrence.Hours;
+            int every = 2;
+
+            string expected = " every 2 Hours between 4:00:00 and 8:00:00";
+            OutputDescriptionFormatter.GetDailyRecurrenceDescription(every, recurrence, start, end).Should().Be(expected);
         }
 
         [Fact]
-        public void get_recurring_type_should_return_years_if_occurs_yearly_with_every_bigger_than_one()
+        public void description_should_return_concat_of_weekly_and_daily_string_if_recurring()
         {
-            OutputDescriptionFormatter.GetRecurringTypeString(RecurringType.Yearly, 2)
-                .Should().Be("Years");
+            Input input = new Input(new DateTime(2020, 01, 01));
+            Configuration config = new Configuration(true, null, ConfigurationType.Recurring, RecurringType.Weekly);
+            DailyFrecuency dailyFrecuency = new DailyFrecuency(false, true, null, 2, DailyRecurrence.Hours, new TimeOnly(04, 00, 00), new TimeOnly(08, 00, 00));
+            WeeklyConfiguration weeklyConfiguration = new WeeklyConfiguration(2);
+            weeklyConfiguration.DaysOfWeek.CheckMonday(true);
+            weeklyConfiguration.DaysOfWeek.CheckWednesday(true);
+            weeklyConfiguration.DaysOfWeek.CheckSaturday(true);
+            string expected = "Occurs every 2 weeks on Monday,Wednesday and Saturday every 2 Hours between 4:00:00 and 8:00:00";
+            OutputDescriptionFormatter.Description(input, config, dailyFrecuency, weeklyConfiguration).Should().Be(expected);
         }
 
         [Fact]
-        public void get_recurring_type_should_return_day_if_occurs_daily()
+        public void description_should_return_once_if_recurring_type_once()
         {
-            OutputDescriptionFormatter.GetRecurringTypeString(RecurringType.Daily, 1)
-                .Should().Be("Day");
-        }
-
-        [Fact]
-        public void get_recurring_type_should_return_days_if_occurs_daily_with_every_bigger_than_one()
-        {
-            OutputDescriptionFormatter.GetRecurringTypeString(RecurringType.Daily, 2)
-                .Should().Be("Days");
-        }
-
-        [Fact]
-        public void description_should_return_formated_string()
-        {
-            var methods = typeof(OutputDescriptionFormatter).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
-            var format = methods.Where(name => name.Name.Equals("format")).First();
-
-            OutputDescriptionFormatter.Description(new DateTime(2021, 01,01), ConfigurationType.Once, RecurringType.Daily, 2, new DateTime(2020, 01,01))
-                .Should()
-                .Be(String.Format(format.GetValue(null).ToString(),
-                    OutputDescriptionFormatter.GetOccurs(ConfigurationType.Once, RecurringType.Daily, 2), new DateTime(2021, 01, 01), new DateTime(2020, 01, 01)));
+            Input input = new Input(new DateTime(2020, 01, 01));
+            Configuration config = new Configuration(true, new DateTime(2021,01,01), ConfigurationType.Once, RecurringType.Weekly);
+            DailyFrecuency dailyFrecuency = new DailyFrecuency(false, true, null, 2, DailyRecurrence.Hours, new TimeOnly(04, 00, 00), new TimeOnly(08, 00, 00));
+            WeeklyConfiguration weeklyConfiguration = new WeeklyConfiguration(2);
+            weeklyConfiguration.DaysOfWeek.CheckMonday(true);
+            weeklyConfiguration.DaysOfWeek.CheckWednesday(true);
+            weeklyConfiguration.DaysOfWeek.CheckSaturday(true);
+            string expected = "Occurs only once at 01/01/2021";
+            OutputDescriptionFormatter.Description(input, config, dailyFrecuency, weeklyConfiguration).Should().Be(expected);
         }
     }
 }

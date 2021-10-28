@@ -7,8 +7,8 @@ namespace Semicrol.Scheduler.Domain.Entities
 {
     public class Output
     {
-        public IList<DateTime> ExecutionTime { get; private set; }
-        public string Description { get; private set; }
+        public IList<DateTime> ExecutionTime { get;  set; }
+        public string Description { get; set; }
 
         public Output()
         {

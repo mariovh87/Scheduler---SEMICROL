@@ -9,30 +9,12 @@ using static Semicrol.Scheduler.Domain.Common.SchedulerEnums;
 namespace Semicrol.Scheduler.Application.UseCases
 {
     public static class DailyFrecuencyCalculator
-    {
-        public static Output CalculateOutput(DailyFrecuency dailyFrecuency, Input input)
-        {
-            return dailyFrecuency.occursOnce
-                ? CalculateOccursOnce(dailyFrecuency, input)
-                : CalculateDailyFrecuencyExecutions(dailyFrecuency, input);
-        }
-
+    {      
         public static Output CalculateOccursOnce(DailyFrecuency dailyFrecuency, Input input)
         {
             ValidateCalculateOccursOnce(dailyFrecuency);
             Output output = new Output();
             output.AddExecution(SetOccursOnceTimeToDate(input.CurrentDate,dailyFrecuency.OccursOnceAt.Value));
-            return output;
-        }
-
-        public static Output CalculateDailyFrecuencyExecutions(DailyFrecuency dailyFrecuency, Input input)
-        {
-            ValidateCalculateDailyFrecuency(dailyFrecuency);
-            Output output = new Output();          
-            foreach (var EachDate in GetExecutions(input.CurrentDate, dailyFrecuency.StartingAt.Value, dailyFrecuency.EndsAt.Value, dailyFrecuency.Every, dailyFrecuency.Frecuency))
-            {
-                output.AddExecution(EachDate);
-            }
             return output;
         }
 
@@ -76,5 +58,12 @@ namespace Semicrol.Scheduler.Application.UseCases
             }
             return executions;
         }
+
+        public static IList<DateTime> GetExecutions(DateTime date, DailyFrecuency dailyFrecuency)
+        {
+            ValidateCalculateDailyFrecuency(dailyFrecuency);
+            return GetExecutions(date, dailyFrecuency.StartingAt.Value, dailyFrecuency.EndsAt.Value, dailyFrecuency.Every, dailyFrecuency.Frecuency);
+        }
+
     }
 }
