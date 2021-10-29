@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Semicrol.Scheduler.Application.UseCases;
 using Semicrol.Scheduler.Domain.Entities;
+using Semicrol.Scheduler.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,38 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
 {
     public class SchedulerTest
     {
+        [Fact]
+        public void calculate_output_configuration_type_once_should_throw_exception_if_occurs_once_date_is_out_of_limits_dates()
+        {
+            Input input = new Input(new DateTime(2020, 01, 01));
+            Configuration config = new Configuration(true, new DateTime(2022, 01, 01), ConfigurationType.Once, RecurringType.Weekly);
+            DailyFrecuency dailyFrecuency = new DailyFrecuency(false, true, null, 2, DailyRecurrence.Hours, new TimeOnly(04, 00, 00), new TimeOnly(08, 00, 00));
+            WeeklyConfiguration weeklyConfiguration = new WeeklyConfiguration(2);
+            Limits limits = new Limits(new DateTime(2021, 01, 01), new DateTime(2021, 01, 15));
+          
+            Action validate = () =>
+            {
+                SchedulerOutputCalculator.CalculateOutput(input, config, dailyFrecuency, weeklyConfiguration, limits);
+            };
+            validate.Should().Throw<DateRangeException>();
+        }
+
+        [Fact]
+        public void calculate_output_configuration_type_once_should_not_throw_exception_if_occurs_once_date_is_in_limits_dates()
+        {
+            Input input = new Input(new DateTime(2020, 01, 01));
+            Configuration config = new Configuration(true, new DateTime(2021, 01, 10), ConfigurationType.Once, RecurringType.Weekly);
+            DailyFrecuency dailyFrecuency = new DailyFrecuency(false, true, null, 2, DailyRecurrence.Hours, new TimeOnly(04, 00, 00), new TimeOnly(08, 00, 00));
+            WeeklyConfiguration weeklyConfiguration = new WeeklyConfiguration(2);
+            Limits limits = new Limits(new DateTime(2021, 01, 01), new DateTime(2021, 01, 15));
+
+            Action validate = () =>
+            {
+                SchedulerOutputCalculator.CalculateOutput(input, config, dailyFrecuency, weeklyConfiguration, limits);
+            };
+            validate.Should().NotThrow<DateRangeException>();
+        }
+
         [Fact]
         public void calculate_output_should_return_output_with_only_one_date_if_executing_once()
         {

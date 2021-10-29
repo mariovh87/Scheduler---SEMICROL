@@ -17,6 +17,7 @@ namespace Semicrol.Scheduler.Application.UseCases
             if (config.Type == SchedulerEnums.ConfigurationType.Once)
             {
                 config.OnceTimeAt.EnsureIsValidDate();
+                DateTimeExtensionMethods.EnsureDateIsInRange(config.OnceTimeAt.Value, limits.StartDate, limits.EndDate);
                 output.AddExecution(config.OnceTimeAt.Value);               
             }
             else
