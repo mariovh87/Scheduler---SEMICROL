@@ -17,52 +17,66 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
         public void get_next_week_day_should_return_next_monday_when_day_of_week_monday()
         {
             DateTime currentDate = new DateTime(2021, 01, 01);
-            DateTime expected = new DateTime(2021, 01, 04);
-            WeeklyRecurrenceCalculator.GetNextWeekday(currentDate, DayOfWeek.Monday).Should().Be(expected);
+
+            var result = WeeklyRecurrenceCalculator.GetNextWeekday(currentDate, DayOfWeek.Monday);
+                
+            result.Should().Be(new DateTime(2021, 01, 04));
         }
 
         [Fact]
         public void get_next_week_day_should_return_next_tuesday_when_day_of_week_tuesday()
         {
             DateTime currentDate = new DateTime(2021, 01, 01);
-            DateTime expected = new DateTime(2021, 01, 05);
-            WeeklyRecurrenceCalculator.GetNextWeekday(currentDate, DayOfWeek.Tuesday).Should().Be(expected);
+
+            var result = WeeklyRecurrenceCalculator.GetNextWeekday(currentDate, DayOfWeek.Tuesday);
+                
+            result.Should().Be(new DateTime(2021, 01, 05));
         }
 
         [Fact]
         public void get_next_week_day_should_return_next_wednesday_when_day_of_week_wednesday()
         {
             DateTime currentDate = new DateTime(2021, 01, 01);
-            DateTime expected = new DateTime(2021, 01, 06);
-            WeeklyRecurrenceCalculator.GetNextWeekday(currentDate, DayOfWeek.Wednesday).Should().Be(expected);
+
+            var result = WeeklyRecurrenceCalculator.GetNextWeekday(currentDate, DayOfWeek.Wednesday);
+                
+            result.Should().Be(new DateTime(2021, 01, 06));
         }
         [Fact]
         public void get_next_week_day_should_return_next_thursday_when_day_of_week_thursday()
         {
             DateTime currentDate = new DateTime(2021, 01, 01);
-            DateTime expected = new DateTime(2021, 01, 07);
-            WeeklyRecurrenceCalculator.GetNextWeekday(currentDate, DayOfWeek.Thursday).Should().Be(expected);
+
+            var result = WeeklyRecurrenceCalculator.GetNextWeekday(currentDate, DayOfWeek.Thursday);
+                
+            result.Should().Be(new DateTime(2021, 01, 07));
         }
         [Fact]
         public void get_next_week_day_should_return_next_friday_when_day_of_week_friday()
         {
             DateTime currentDate = new DateTime(2021, 01, 01);
-            DateTime expected = new DateTime(2021, 01, 01);
-            WeeklyRecurrenceCalculator.GetNextWeekday(currentDate, DayOfWeek.Friday).Should().Be(expected);
+
+            var result = WeeklyRecurrenceCalculator.GetNextWeekday(currentDate, DayOfWeek.Friday);
+                
+            result.Should().Be(new DateTime(2021, 01, 01));
         }
         [Fact]
         public void get_next_week_day_should_return_next_saturday_when_day_of_week_saturday()
         {
             DateTime currentDate = new DateTime(2021, 01, 01);
-            DateTime expected = new DateTime(2021, 01, 02);
-            WeeklyRecurrenceCalculator.GetNextWeekday(currentDate, DayOfWeek.Saturday).Should().Be(expected);
+
+            var result = WeeklyRecurrenceCalculator.GetNextWeekday(currentDate, DayOfWeek.Saturday);
+            
+            result.Should().Be(new DateTime(2021, 01, 02));
         }
         [Fact]
         public void get_next_week_day_should_return_next_sunday_when_day_of_week_sunday()
         {
             DateTime currentDate = new DateTime(2021, 01, 01);
-            DateTime expected = new DateTime(2021, 01, 03);
-            WeeklyRecurrenceCalculator.GetNextWeekday(currentDate, DayOfWeek.Sunday).Should().Be(expected);
+
+            var result = WeeklyRecurrenceCalculator.GetNextWeekday(currentDate, DayOfWeek.Sunday);
+            
+            result.Should().Be(new DateTime(2021, 01, 03));
         }     
 
         [Theory]
@@ -73,8 +87,10 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
         public void get_next_recurrence_start_date_should_add_every_multiplicated_by_7_days(int every)
         {
             DateTime startDate = new DateTime(2021, 01, 01);
-            DateTime expected = startDate.AddDays(every * 7);
-            WeeklyRecurrenceCalculator.AddEveryBy7DaysToCurrentDate(startDate, every).Should().Be(expected);
+
+            var result = WeeklyRecurrenceCalculator.AddEveryBy7DaysToCurrentDate(startDate, every);
+            
+            result.Should().Be(startDate.AddDays(every * 7));
         }
 
 
@@ -84,9 +100,9 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
             DateTime currentdate = new DateTime(2021, 01, 01);
             WeeklyConfiguration config = new WeeklyConfiguration(2);
 
-            IList<DateTime> expected = new List<DateTime>();
-
-            WeeklyRecurrenceCalculator.AddDaysToRecurrenceList(currentdate, config.DaysOfWeek.Days).Should().BeEquivalentTo(expected);
+            var result = WeeklyRecurrenceCalculator.AddDaysToRecurrenceList(currentdate, config.DaysOfWeek.Days);
+            
+            result.Should().BeEmpty();
         }
 
         [Fact]
@@ -95,9 +111,9 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
             DateTime currentdate = new DateTime(2021, 01, 01);
             WeeklyConfiguration config = new WeeklyConfiguration(2);
 
-            IList<DateTime> expected = new List<DateTime>();
-
-            WeeklyRecurrenceCalculator.GetNextRecurrence(currentdate, config).Should().BeEquivalentTo(expected);
+            var result = WeeklyRecurrenceCalculator.GetNextRecurrence(currentdate, config);
+            
+            result.Should().BeEmpty();
         }
 
         [Fact]
@@ -113,12 +129,11 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
             config.DaysOfWeek.CheckSaturday(true);
             config.DaysOfWeek.CheckSunday(true);
 
-            IList<DateTime> expected = new List<DateTime>();
-            expected.Add(new DateTime(2021, 01, 01));
-            expected.Add(new DateTime(2021, 01, 02));
-            expected.Add(new DateTime(2021, 01, 03));
-
-            WeeklyRecurrenceCalculator.GetNextRecurrence(currentdate, config).Should().BeEquivalentTo(expected);
+            var result = WeeklyRecurrenceCalculator.GetNextRecurrence(currentdate, config);
+            
+            result[0].Should().Be(new DateTime(2021, 01, 01));
+            result[1].Should().Be(new DateTime(2021, 01, 02));
+            result[2].Should().Be(new DateTime(2021, 01, 03));
         }
 
         [Fact]
@@ -134,16 +149,15 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
             config.DaysOfWeek.CheckSaturday(true);
             config.DaysOfWeek.CheckSunday(true);
 
-            IList<DateTime> expected = new List<DateTime>();
-            expected.Add(new DateTime(2020, 12, 28));
-            expected.Add(new DateTime(2020, 12, 29));
-            expected.Add(new DateTime(2020, 12, 30));
-            expected.Add(new DateTime(2020, 12, 31));
-            expected.Add(new DateTime(2021, 01, 01));
-            expected.Add(new DateTime(2021, 01, 02));
-            expected.Add(new DateTime(2021, 01, 03));
-
-            WeeklyRecurrenceCalculator.GetNextRecurrence(currentdate, config).Should().BeEquivalentTo(expected);
+            var result = WeeklyRecurrenceCalculator.GetNextRecurrence(currentdate, config);
+            
+            result[0].Should().Be(new DateTime(2020, 12, 28));
+            result[1].Should().Be(new DateTime(2020, 12, 29));
+            result[2].Should().Be(new DateTime(2020, 12, 30));
+            result[3].Should().Be(new DateTime(2020, 12, 31));
+            result[4].Should().Be(new DateTime(2021, 01, 01));
+            result[5].Should().Be(new DateTime(2021, 01, 02));
+            result[6].Should().Be(new DateTime(2021, 01, 03));
         }
 
         [Fact]
@@ -152,16 +166,15 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
             DateTime currentdate = new DateTime(2021, 01, 01);
             WeeklyConfiguration config = new WeeklyConfiguration(2);
             DateTime limit = new DateTime(2021, 01, 10);
-            IList<DateTime> expected = new List<DateTime>();
-
             TimeOnly starting = new TimeOnly(01, 30, 00);
             TimeOnly end = new TimeOnly(08, 30, 00);
             int occursEvery = 2;
             DailyRecurrence every = DailyRecurrence.Hours;
-
             DailyFrecuency dailyFrecuency = new DailyFrecuency(false, true, null, occursEvery, every, starting, end);
 
-            WeeklyRecurrenceCalculator.GetAllRecurrences(currentdate, config, dailyFrecuency, limit).Should().BeEquivalentTo(expected);
+            var result = WeeklyRecurrenceCalculator.GetAllRecurrences(currentdate, config, dailyFrecuency, limit);
+            
+            result.Should().BeEmpty();
         }
 
         [Fact]
@@ -170,7 +183,6 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
             DateTime currentdate = new DateTime(2021, 01, 01);
             WeeklyConfiguration config = new WeeklyConfiguration(2);
             DateTime limit = new DateTime(2021, 01, 15);
-
             config.DaysOfWeek.CheckMonday(true);
             config.DaysOfWeek.CheckTuesday(true);
             config.DaysOfWeek.CheckWednesday(true);
@@ -178,56 +190,46 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
             config.DaysOfWeek.CheckFriday(true);
             config.DaysOfWeek.CheckSaturday(true);
             config.DaysOfWeek.CheckSunday(true);
-
-            IList<DateTime> expected = new List<DateTime>();
-            expected.Add(new DateTime(2021, 01, 01,01,30,00));
-            expected.Add(new DateTime(2021, 01, 01, 03, 30, 00));
-            expected.Add(new DateTime(2021, 01, 01, 05, 30, 00));
-            expected.Add(new DateTime(2021, 01, 01, 07, 30, 00));
-            expected.Add(new DateTime(2021, 01, 02, 01, 30, 00));
-
-            expected.Add(new DateTime(2021, 01, 02, 03, 30, 00));
-            expected.Add(new DateTime(2021, 01, 02, 05, 30, 00));
-            expected.Add(new DateTime(2021, 01, 02, 07, 30, 00));
-            expected.Add(new DateTime(2021, 01, 03, 01, 30, 00));
-
-            expected.Add(new DateTime(2021, 01, 03, 03, 30, 00));
-            expected.Add(new DateTime(2021, 01, 03, 05, 30, 00));
-            expected.Add(new DateTime(2021, 01, 03, 07, 30, 00));
-
-            expected.Add(new DateTime(2021, 01, 11, 01, 30, 00));
-            expected.Add(new DateTime(2021, 01, 11, 03, 30, 00));
-            expected.Add(new DateTime(2021, 01, 11, 05, 30, 00));
-            expected.Add(new DateTime(2021, 01, 11, 07, 30, 00));
-
-            expected.Add(new DateTime(2021, 01, 12, 01, 30, 00));
-            expected.Add(new DateTime(2021, 01, 12, 03, 30, 00));
-            expected.Add(new DateTime(2021, 01, 12, 05, 30, 00));
-            expected.Add(new DateTime(2021, 01, 12, 07, 30, 00));
-
-            expected.Add(new DateTime(2021, 01, 13, 01, 30, 00));
-            expected.Add(new DateTime(2021, 01, 13, 03, 30, 00));
-            expected.Add(new DateTime(2021, 01, 13, 05, 30, 00));
-            expected.Add(new DateTime(2021, 01, 13, 07, 30, 00));
-
-            expected.Add(new DateTime(2021, 01, 14, 01, 30, 00));
-            expected.Add(new DateTime(2021, 01, 14, 03, 30, 00));
-            expected.Add(new DateTime(2021, 01, 14, 05, 30, 00));
-            expected.Add(new DateTime(2021, 01, 14, 07, 30, 00));
-
-            expected.Add(new DateTime(2021, 01, 15, 01, 30, 00));
-            expected.Add(new DateTime(2021, 01, 15, 03, 30, 00));
-            expected.Add(new DateTime(2021, 01, 15, 05, 30, 00));
-            expected.Add(new DateTime(2021, 01, 15, 07, 30, 00));
-
             TimeOnly starting = new TimeOnly(01, 30, 00);
             TimeOnly end = new TimeOnly(08, 30, 00);
             int occursEvery = 2;
             DailyRecurrence every = DailyRecurrence.Hours;
-
             DailyFrecuency dailyFrecuency = new DailyFrecuency(false, true, null, occursEvery, every, starting, end);
 
-            WeeklyRecurrenceCalculator.GetAllRecurrences(currentdate, config, dailyFrecuency, limit).Should().BeEquivalentTo(expected);
+            var result = WeeklyRecurrenceCalculator.GetAllRecurrences(currentdate, config, dailyFrecuency, limit);
+
+            result[0].Should().Be(new DateTime(2021, 01, 01, 01, 30, 00));
+            result[1].Should().Be(new DateTime(2021, 01, 01, 03, 30, 00));
+            result[2].Should().Be(new DateTime(2021, 01, 01, 05, 30, 00));
+            result[3].Should().Be(new DateTime(2021, 01, 01, 07, 30, 00));
+            result[4].Should().Be(new DateTime(2021, 01, 02, 01, 30, 00));
+            result[5].Should().Be(new DateTime(2021, 01, 02, 03, 30, 00));
+            result[6].Should().Be(new DateTime(2021, 01, 02, 05, 30, 00));
+            result[7].Should().Be(new DateTime(2021, 01, 02, 07, 30, 00));
+            result[8].Should().Be(new DateTime(2021, 01, 03, 01, 30, 00));
+            result[9].Should().Be(new DateTime(2021, 01, 03, 03, 30, 00));
+            result[10].Should().Be(new DateTime(2021, 01, 03, 05, 30, 00));
+            result[11].Should().Be(new DateTime(2021, 01, 03, 07, 30, 00));
+            result[12].Should().Be(new DateTime(2021, 01, 11, 01, 30, 00));
+            result[13].Should().Be(new DateTime(2021, 01, 11, 03, 30, 00));
+            result[14].Should().Be(new DateTime(2021, 01, 11, 05, 30, 00));
+            result[15].Should().Be(new DateTime(2021, 01, 11, 07, 30, 00));
+            result[16].Should().Be(new DateTime(2021, 01, 12, 01, 30, 00));
+            result[17].Should().Be(new DateTime(2021, 01, 12, 03, 30, 00));
+            result[18].Should().Be(new DateTime(2021, 01, 12, 05, 30, 00));
+            result[19].Should().Be(new DateTime(2021, 01, 12, 07, 30, 00));
+            result[20].Should().Be(new DateTime(2021, 01, 13, 01, 30, 00));
+            result[21].Should().Be(new DateTime(2021, 01, 13, 03, 30, 00));
+            result[22].Should().Be(new DateTime(2021, 01, 13, 05, 30, 00));
+            result[23].Should().Be(new DateTime(2021, 01, 13, 07, 30, 00));
+            result[24].Should().Be(new DateTime(2021, 01, 14, 01, 30, 00));
+            result[25].Should().Be(new DateTime(2021, 01, 14, 03, 30, 00));
+            result[26].Should().Be(new DateTime(2021, 01, 14, 05, 30, 00));
+            result[27].Should().Be(new DateTime(2021, 01, 14, 07, 30, 00));
+            result[28].Should().Be(new DateTime(2021, 01, 15, 01, 30, 00));
+            result[29].Should().Be(new DateTime(2021, 01, 15, 03, 30, 00));
+            result[30].Should().Be(new DateTime(2021, 01, 15, 05, 30, 00));
+            result[31].Should().Be(new DateTime(2021, 01, 15, 07, 30, 00));
         }
 
         [Fact]
@@ -239,36 +241,30 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
             config.DaysOfWeek.CheckFriday(true);
             config.DaysOfWeek.CheckSaturday(true);
             config.DaysOfWeek.CheckSunday(true);
-
-            IList<DateTime> expected = new List<DateTime>();
-            expected.Add(new DateTime(2021, 01, 01, 01, 30, 00));
-            expected.Add(new DateTime(2021, 01, 01, 03, 30, 00));
-            expected.Add(new DateTime(2021, 01, 01, 05, 30, 00));
-            expected.Add(new DateTime(2021, 01, 01, 07, 30, 00));
-            expected.Add(new DateTime(2021, 01, 02, 01, 30, 00));
-
-            expected.Add(new DateTime(2021, 01, 02, 03, 30, 00));
-            expected.Add(new DateTime(2021, 01, 02, 05, 30, 00));
-            expected.Add(new DateTime(2021, 01, 02, 07, 30, 00));
-            expected.Add(new DateTime(2021, 01, 03, 01, 30, 00));
-
-            expected.Add(new DateTime(2021, 01, 03, 03, 30, 00));
-            expected.Add(new DateTime(2021, 01, 03, 05, 30, 00));
-            expected.Add(new DateTime(2021, 01, 03, 07, 30, 00));
-
-            expected.Add(new DateTime(2021, 01, 15, 01, 30, 00));
-            expected.Add(new DateTime(2021, 01, 15, 03, 30, 00));
-            expected.Add(new DateTime(2021, 01, 15, 05, 30, 00));
-            expected.Add(new DateTime(2021, 01, 15, 07, 30, 00));
-
             TimeOnly starting = new TimeOnly(01, 30, 00);
             TimeOnly end = new TimeOnly(08, 30, 00);
             int occursEvery = 2;
             DailyRecurrence every = DailyRecurrence.Hours;
-
             DailyFrecuency dailyFrecuency = new DailyFrecuency(false, true, null, occursEvery, every, starting, end);
 
-            WeeklyRecurrenceCalculator.GetAllRecurrences(currentdate, config, dailyFrecuency, limit).Should().BeEquivalentTo(expected);
+            var result = WeeklyRecurrenceCalculator.GetAllRecurrences(currentdate, config, dailyFrecuency, limit);
+
+            result[0].Should().Be(new DateTime(2021, 01, 01, 01, 30, 00));
+            result[1].Should().Be(new DateTime(2021, 01, 01, 03, 30, 00));
+            result[2].Should().Be(new DateTime(2021, 01, 01, 05, 30, 00));
+            result[3].Should().Be(new DateTime(2021, 01, 01, 07, 30, 00));
+            result[4].Should().Be(new DateTime(2021, 01, 02, 01, 30, 00));
+            result[5].Should().Be(new DateTime(2021, 01, 02, 03, 30, 00));
+            result[6].Should().Be(new DateTime(2021, 01, 02, 05, 30, 00));
+            result[7].Should().Be(new DateTime(2021, 01, 02, 07, 30, 00));
+            result[8].Should().Be(new DateTime(2021, 01, 03, 01, 30, 00));
+            result[9].Should().Be(new DateTime(2021, 01, 03, 03, 30, 00));
+            result[10].Should().Be(new DateTime(2021, 01, 03, 05, 30, 00));
+            result[11].Should().Be(new DateTime(2021, 01, 03, 07, 30, 00));
+            result[12].Should().Be(new DateTime(2021, 01, 15, 01, 30, 00));
+            result[13].Should().Be(new DateTime(2021, 01, 15, 03, 30, 00));
+            result[14].Should().Be(new DateTime(2021, 01, 15, 05, 30, 00));
+            result[15].Should().Be(new DateTime(2021, 01, 15, 07, 30, 00));
         }
 
         [Fact]

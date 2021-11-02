@@ -16,24 +16,30 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
         public void add_time_should_add_seconds_when_daily_recurrence_is_seconds()
         {
             int occursEvery = 20;
-            DateTime expected = new DateTime(2021, 01, 01, 00, 00, occursEvery);
-            DailyFrecuencyCalculator.AddTime(inputDate, DailyRecurrence.Seconds, occursEvery).Should().Be(expected);
+
+            var result = DailyFrecuencyCalculator.AddTime(inputDate, DailyRecurrence.Seconds, occursEvery);
+
+            result.Should().Be(new DateTime(2021, 01, 01, 00, 00, occursEvery));
         }
 
         [Fact]
         public void add_time_should_add_minutes_when_daily_recurrence_is_minutes()
         {
             int occursEvery = 20;
-            DateTime expected = new DateTime(2021, 01, 01, 00, occursEvery, 00);
-            DailyFrecuencyCalculator.AddTime(inputDate, DailyRecurrence.Minutes, occursEvery).Should().Be(expected);
+
+            var result = DailyFrecuencyCalculator.AddTime(inputDate, DailyRecurrence.Minutes, occursEvery);
+            
+            result.Should().Be(new DateTime(2021, 01, 01, 00, occursEvery, 00));
         }
 
         [Fact]
         public void add_time_should_add_hours_when_daily_recurrence_is_hours()
         {
             int occursEvery = 20;
-            DateTime expected = new DateTime(2021, 01, 01, occursEvery, 00, 00);
-            DailyFrecuencyCalculator.AddTime(inputDate, DailyRecurrence.Hours, occursEvery).Should().Be(expected);
+
+            var result = DailyFrecuencyCalculator.AddTime(inputDate, DailyRecurrence.Hours, occursEvery);
+                
+            result.Should().Be(new DateTime(2021, 01, 01, occursEvery, 00, 00));
         }
 
         [Fact]
@@ -45,11 +51,13 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
             int occursEvery = 15;
             DailyRecurrence every = DailyRecurrence.Minutes;
 
-            IList<DateTime> executions = DailyFrecuencyCalculator.GetExecutions(executionDate, starting, end, every, occursEvery);
-            executions.Should().Contain(new DateTime(2021, 01, 01, 01, 15, 00));
-            executions.Should().Contain(new DateTime(2021, 01, 01, 01, 30, 00));
-            executions.Should().Contain(new DateTime(2021, 01, 01, 01, 45, 00));
-            executions.Should().Contain(new DateTime(2021, 01, 01, 02, 00, 00));
+            var result = DailyFrecuencyCalculator.GetExecutions(executionDate, starting, end, every, occursEvery);
+
+            result[0].Should().Be(new DateTime(2021, 01, 01, 01, 00, 00));
+            result[1].Should().Be(new DateTime(2021, 01, 01, 01, 15, 00));
+            result[2].Should().Be(new DateTime(2021, 01, 01, 01, 30, 00));
+            result[3].Should().Be(new DateTime(2021, 01, 01, 01, 45, 00));
+            result[4].Should().Be(new DateTime(2021, 01, 01, 02, 00, 00));
         }
 
         [Fact]
@@ -61,13 +69,15 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
             int occursEvery = 30;
             DailyRecurrence every = DailyRecurrence.Seconds;
 
-            IList<DateTime> executions = DailyFrecuencyCalculator.GetExecutions(executionDate, starting, end, every, occursEvery);
-            executions.Should().Contain(new DateTime(2021, 01, 01, 01, 30, 30));
-            executions.Should().Contain(new DateTime(2021, 01, 01, 01, 31, 00));
-            executions.Should().Contain(new DateTime(2021, 01, 01, 01, 31, 30));
-            executions.Should().Contain(new DateTime(2021, 01, 01, 01, 32, 00));
-            executions.Should().Contain(new DateTime(2021, 01, 01, 01, 32, 30));
-            executions.Should().Contain(new DateTime(2021, 01, 01, 01, 33, 00));
+            var result = DailyFrecuencyCalculator.GetExecutions(executionDate, starting, end, every, occursEvery);
+
+            result[0].Should().Be(new DateTime(2021, 01, 01, 01, 30, 00));
+            result[1].Should().Be(new DateTime(2021, 01, 01, 01, 30, 30));
+            result[2].Should().Be(new DateTime(2021, 01, 01, 01, 31, 00));
+            result[3].Should().Be(new DateTime(2021, 01, 01, 01, 31, 30));
+            result[4].Should().Be(new DateTime(2021, 01, 01, 01, 32, 00));
+            result[5].Should().Be(new DateTime(2021, 01, 01, 01, 32, 30));
+            result[6].Should().Be(new DateTime(2021, 01, 01, 01, 33, 00));
         }
 
         [Fact]
@@ -79,11 +89,12 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
             int occursEvery = 2;
             DailyRecurrence every = DailyRecurrence.Hours;
 
-            IList<DateTime> executions = DailyFrecuencyCalculator.GetExecutions(executionDate, starting, end, every, occursEvery);
-            executions.Should().Contain(new DateTime(2021, 01, 01, 01, 30, 00));
-            executions.Should().Contain(new DateTime(2021, 01, 01, 03, 30, 00));
-            executions.Should().Contain(new DateTime(2021, 01, 01, 05, 30, 00));
-            executions.Should().Contain(new DateTime(2021, 01, 01, 07, 30, 00));
+           var result = DailyFrecuencyCalculator.GetExecutions(executionDate, starting, end, every, occursEvery);
+
+            result[0].Should().Be(new DateTime(2021, 01, 01, 01, 30, 00));
+            result[1].Should().Be(new DateTime(2021, 01, 01, 03, 30, 00));
+            result[2].Should().Be(new DateTime(2021, 01, 01, 05, 30, 00));
+            result[3].Should().Be(new DateTime(2021, 01, 01, 07, 30, 00));
         }
 
         [Fact]
@@ -96,11 +107,12 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
             DailyRecurrence every = DailyRecurrence.Minutes;
             DailyFrecuency frecuency = new DailyFrecuency(false, true, null, occursEvery, every, starting, end);
 
-            IList<DateTime> executions = DailyFrecuencyCalculator.GetExecutions(executionDate, frecuency);
-            executions.Should().Contain(new DateTime(2021, 01, 01, 01, 15, 00));
-            executions.Should().Contain(new DateTime(2021, 01, 01, 01, 30, 00));
-            executions.Should().Contain(new DateTime(2021, 01, 01, 01, 45, 00));
-            executions.Should().Contain(new DateTime(2021, 01, 01, 02, 00, 00));
+            var result = DailyFrecuencyCalculator.GetExecutions(executionDate, frecuency);
+
+            result[0].Should().Be(new DateTime(2021, 01, 01, 01, 15, 00));
+            result[1].Should().Be(new DateTime(2021, 01, 01, 01, 30, 00));
+            result[2].Should().Be(new DateTime(2021, 01, 01, 01, 45, 00));
+            result[3].Should().Be(new DateTime(2021, 01, 01, 02, 00, 00));
         }
 
         [Fact]
@@ -113,13 +125,15 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
             DailyRecurrence every = DailyRecurrence.Seconds;
             DailyFrecuency frecuency = new DailyFrecuency(false, true, null, occursEvery, every, starting, end);
 
-            IList<DateTime> executions = DailyFrecuencyCalculator.GetExecutions(executionDate, frecuency);
-            executions.Should().Contain(new DateTime(2021, 01, 01, 01, 30, 30));
-            executions.Should().Contain(new DateTime(2021, 01, 01, 01, 31, 00));
-            executions.Should().Contain(new DateTime(2021, 01, 01, 01, 31, 30));
-            executions.Should().Contain(new DateTime(2021, 01, 01, 01, 32, 00));
-            executions.Should().Contain(new DateTime(2021, 01, 01, 01, 32, 30));
-            executions.Should().Contain(new DateTime(2021, 01, 01, 01, 33, 00));
+            var result = DailyFrecuencyCalculator.GetExecutions(executionDate, frecuency);
+
+            result[0].Should().Be(new DateTime(2021, 01, 01, 01, 30, 00));
+            result[1].Should().Be(new DateTime(2021, 01, 01, 01, 30, 30));
+            result[2].Should().Be(new DateTime(2021, 01, 01, 01, 31, 00));
+            result[3].Should().Be(new DateTime(2021, 01, 01, 01, 31, 30));
+            result[4].Should().Be(new DateTime(2021, 01, 01, 01, 32, 00));
+            result[5].Should().Be(new DateTime(2021, 01, 01, 01, 32, 30));
+            result[6].Should().Be(new DateTime(2021, 01, 01, 01, 33, 00));
         }
 
         [Fact]
@@ -132,11 +146,12 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
             DailyRecurrence every = DailyRecurrence.Hours;
             DailyFrecuency frecuency = new DailyFrecuency(false, true, null, occursEvery, every, starting, end);
 
-            IList<DateTime> executions = DailyFrecuencyCalculator.GetExecutions(executionDate, frecuency);
-            executions.Should().Contain(new DateTime(2021, 01, 01, 01, 30, 00));
-            executions.Should().Contain(new DateTime(2021, 01, 01, 03, 30, 00));
-            executions.Should().Contain(new DateTime(2021, 01, 01, 05, 30, 00));
-            executions.Should().Contain(new DateTime(2021, 01, 01, 07, 30, 00));
+            var result = DailyFrecuencyCalculator.GetExecutions(executionDate, frecuency);
+
+            result[0].Should().Be(new DateTime(2021, 01, 01, 01, 30, 00));
+            result[1].Should().Be(new DateTime(2021, 01, 01, 03, 30, 00));
+            result[2].Should().Be(new DateTime(2021, 01, 01, 05, 30, 00));
+            result[3].Should().Be(new DateTime(2021, 01, 01, 07, 30, 00));
         }
 
         [Fact]
@@ -147,9 +162,7 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
             TimeOnly end = new TimeOnly(08, 30, 00);
             int occursEvery = 2;
             DailyRecurrence every = DailyRecurrence.Hours;
-
             DailyFrecuency dailyFrecuency = new DailyFrecuency(true, false, null, occursEvery, every, starting, end);
-            Input input = new Input(executionDate);
 
             Action validate = () =>
             {
@@ -165,9 +178,7 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
             TimeOnly end = new TimeOnly(08, 30, 00);
             int occursEvery = 2;
             DailyRecurrence every = DailyRecurrence.Hours;
-
             DailyFrecuency dailyFrecuency = new DailyFrecuency(false, true, null, occursEvery, every, null, end);
-            Input input = new Input(executionDate);
 
             Action validate = () =>
             {
@@ -204,9 +215,7 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
             TimeOnly end = new TimeOnly(08, 30, 00);
             int occursEvery = 2;
             DailyRecurrence every = DailyRecurrence.Hours;
-
             DailyFrecuency dailyFrecuency = new DailyFrecuency(false, true, null, occursEvery, every, null, end);
-            Input input = new Input(executionDate);
 
             Action validate = () =>
             {
@@ -222,9 +231,10 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
         {
             DateTime executionDate = new DateTime(2021, 01, 01, 00, 00, 00);
             TimeOnly occursOnce = new TimeOnly(01, 30, 00);
-            DateTime expected = new DateTime(executionDate.Year, executionDate.Month, executionDate.Day, occursOnce.Hour, occursOnce.Minute, occursOnce.Second);
 
-            DailyFrecuencyCalculator.SetOccursOnceTimeToDate(executionDate, occursOnce).Should().Be(expected);
+            var result = DailyFrecuencyCalculator.SetOccursOnceTimeToDate(executionDate, occursOnce);
+                
+            result.Should().Be(new DateTime(executionDate.Year, executionDate.Month, executionDate.Day, occursOnce.Hour, occursOnce.Minute, occursOnce.Second));
         }
 
         [Fact]
