@@ -24,9 +24,9 @@ namespace Semicrol.Scheduler.Domain.Test.Entities
             days.CheckSaturday(true);
             days.CheckSunday(true);
 
-            string expected = "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday and Sunday";
-
-            OutputDescriptionFormatter.GetDaysOfWeekString(days.Days).Should().BeEquivalentTo(expected);
+            var result = OutputDescriptionFormatter.GetDaysOfWeekString(days.Days);
+            
+            result.Should().BeEquivalentTo("Monday,Tuesday,Wednesday,Thursday,Friday,Saturday and Sunday");
         }
 
         [Fact]
@@ -35,9 +35,9 @@ namespace Semicrol.Scheduler.Domain.Test.Entities
             ConfigDaysOfWeek days = new ConfigDaysOfWeek();
             days.CheckMonday(true);
 
-            string expected = "Monday";
-
-            OutputDescriptionFormatter.GetDaysOfWeekString(days.Days).Should().BeEquivalentTo(expected);
+            var result = OutputDescriptionFormatter.GetDaysOfWeekString(days.Days);
+                
+            result.Should().BeEquivalentTo("Monday");
         }
 
         [Fact]
@@ -46,10 +46,9 @@ namespace Semicrol.Scheduler.Domain.Test.Entities
             ConfigDaysOfWeek days = new ConfigDaysOfWeek();
             days.CheckMonday(true);
             days.CheckFriday(true);
-
-            string expected = "Monday and Friday";
-
-            OutputDescriptionFormatter.GetDaysOfWeekString(days.Days).Should().BeEquivalentTo(expected);
+            var result = OutputDescriptionFormatter.GetDaysOfWeekString(days.Days);
+            
+            result.Should().BeEquivalentTo("Monday and Friday");
         }
 
         [Fact]
@@ -61,8 +60,9 @@ namespace Semicrol.Scheduler.Domain.Test.Entities
             days.CheckFriday(true);
             int every = 2;
 
-            string expected = "Occurs every 2 weeks on Monday,Thursday and Friday";
-            OutputDescriptionFormatter.GetWeeklyConfigurationDescription(every, days.Days).Should().Be(expected);
+            var result = OutputDescriptionFormatter.GetWeeklyConfigurationDescription(every, days.Days);
+            
+            result.Should().Be("Occurs every 2 weeks on Monday,Thursday and Friday");
         }
 
         [Fact]
@@ -73,8 +73,9 @@ namespace Semicrol.Scheduler.Domain.Test.Entities
             DailyRecurrence recurrence = DailyRecurrence.Hours;
             int every = 2;
 
-            string expected = " every 2 Hours between 4:00:00 and 8:00:00";
-            OutputDescriptionFormatter.GetDailyRecurrenceDescription(every, recurrence, start, end).Should().Be(expected);
+            var result = OutputDescriptionFormatter.GetDailyRecurrenceDescription(every, recurrence, start, end);
+            
+            result.Should().Be(" every 2 Hours between 4:00:00 and 8:00:00");
         }
 
         [Fact]
@@ -87,8 +88,10 @@ namespace Semicrol.Scheduler.Domain.Test.Entities
             weeklyConfiguration.DaysOfWeek.CheckMonday(true);
             weeklyConfiguration.DaysOfWeek.CheckWednesday(true);
             weeklyConfiguration.DaysOfWeek.CheckSaturday(true);
-            string expected = "Occurs every 2 weeks on Monday,Wednesday and Saturday every 2 Hours between 4:00:00 and 8:00:00";
-            OutputDescriptionFormatter.Description(input, config, dailyFrecuency, weeklyConfiguration).Should().Be(expected);
+
+            var result = OutputDescriptionFormatter.Description(input, config, dailyFrecuency, weeklyConfiguration);
+            
+            result.Should().Be("Occurs every 2 weeks on Monday,Wednesday and Saturday every 2 Hours between 4:00:00 and 8:00:00");
         }
 
         [Fact]
@@ -101,8 +104,10 @@ namespace Semicrol.Scheduler.Domain.Test.Entities
             weeklyConfiguration.DaysOfWeek.CheckMonday(true);
             weeklyConfiguration.DaysOfWeek.CheckWednesday(true);
             weeklyConfiguration.DaysOfWeek.CheckSaturday(true);
-            string expected = "Occurs only once at 01/01/2021";
-            OutputDescriptionFormatter.Description(input, config, dailyFrecuency, weeklyConfiguration).Should().Be(expected);
+
+            var result = OutputDescriptionFormatter.Description(input, config, dailyFrecuency, weeklyConfiguration);
+            
+            result.Should().Be("Occurs only once at 01/01/2021");
         }
     }
 }

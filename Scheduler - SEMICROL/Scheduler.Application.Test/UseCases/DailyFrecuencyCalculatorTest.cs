@@ -109,10 +109,11 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
 
             var result = DailyFrecuencyCalculator.GetExecutions(executionDate, frecuency);
 
-            result[0].Should().Be(new DateTime(2021, 01, 01, 01, 15, 00));
-            result[1].Should().Be(new DateTime(2021, 01, 01, 01, 30, 00));
-            result[2].Should().Be(new DateTime(2021, 01, 01, 01, 45, 00));
-            result[3].Should().Be(new DateTime(2021, 01, 01, 02, 00, 00));
+            result[0].Should().Be(new DateTime(2021, 01, 01, 01, 00, 00));
+            result[1].Should().Be(new DateTime(2021, 01, 01, 01, 15, 00));
+            result[2].Should().Be(new DateTime(2021, 01, 01, 01, 30, 00));
+            result[3].Should().Be(new DateTime(2021, 01, 01, 01, 45, 00));
+            result[4].Should().Be(new DateTime(2021, 01, 01, 02, 00, 00));
         }
 
         [Fact]
