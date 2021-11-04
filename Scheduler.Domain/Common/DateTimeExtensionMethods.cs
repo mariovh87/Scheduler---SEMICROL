@@ -34,9 +34,9 @@ namespace Semicrol.Scheduler.Domain.Common
             return !date.IsMinValue() && !date.IsMaxValue();
         }
 
-        public static bool IsMinValue(this DateTime date)
+        public static bool IsMaxValue(this DateTime? date)
         {
-            return date == DateTime.MinValue;
+            return date.HasValue && date.Value == DateTime.MaxValue;
         }
 
         public static bool IsMaxValue(this DateTime date)
@@ -48,16 +48,16 @@ namespace Semicrol.Scheduler.Domain.Common
         {
             return date.HasValue && !date.IsMinValue() && !date.IsMaxValue();
         }
+        public static bool IsMinValue(this DateTime date)
+        {
+            return date == DateTime.MinValue;
+        }
 
         public static bool IsMinValue(this DateTime? date)
         {
             return date.HasValue && date.Value == DateTime.MinValue;
         }
 
-        public static bool IsMaxValue(this DateTime? date)
-        {
-            return date.HasValue && date.Value == DateTime.MaxValue;
-        }
 
         public static bool CheckIfStartDateIsGte(DateTime startDate, DateTime endDate)
         {

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Semicrol.Scheduler.Application.UseCases
 {
-    public class WeeklyRecurrenceCalculator
+    public static class WeeklyRecurrenceCalculator
     {
         private const int ADD_DAYS_EVERY = 7;
 

@@ -46,7 +46,7 @@ namespace Semicrol.Scheduler.Domain.Entities
         public static string GetDaysOfWeekString(IList<ConfigDay> days)
         {
             Ensure.That(days).HasItems();
-            if (days.Where(d => d.IsChecked).Count() == 1)
+            if (days.Count(d => d.IsChecked) == 1)
             {
                 return days.First().Day.ToString();
             }

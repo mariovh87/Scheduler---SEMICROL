@@ -9,7 +9,7 @@ using Semicrol.Scheduler.Domain.Entities;
 
 namespace Semicrol.Scheduler.Application.UseCases
 {
-    public class SchedulerOutputCalculator
+    public static class SchedulerOutputCalculator
     {
         public static Output CalculateOutput(Input input, Configuration config, DailyFrecuency dailyFrecuency, WeeklyConfiguration weeklyConfig, Limits limits)
         {
