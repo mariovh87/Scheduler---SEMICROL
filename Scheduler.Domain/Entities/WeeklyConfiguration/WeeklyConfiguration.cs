@@ -13,13 +13,6 @@ namespace Semicrol.Scheduler.Domain.Entities
             Ensure.That(every).IsGt(0);
             this.Every = every;
             this.DaysOfWeek = new ConfigDaysOfWeek();
-        }
-
-        public WeeklyConfiguration(int every, ConfigDaysOfWeek daysOfWeek)
-        {
-            Ensure.That(every).IsGt(0);
-            this.Every = every;
-            this.DaysOfWeek = daysOfWeek;
-        }      
+        }   
     }
 }

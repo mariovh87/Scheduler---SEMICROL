@@ -69,7 +69,7 @@ namespace Semicrol.Scheduler.Domain.Common
 
         public static bool IsValidRange(DateTime startDate, DateTime endDate)
         {
-            return CheckIfStartDateIsGte(startDate, endDate);
+            return !CheckIfStartDateIsGte(startDate, endDate);
         }
 
         public static void EnsureIsValidRange(DateTime startDate, DateTime endDate)

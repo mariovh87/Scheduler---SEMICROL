@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Semicrol.Scheduler.Application.UseCases;
 using Semicrol.Scheduler.Domain.Entities;
+using Semicrol.Scheduler.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -198,7 +199,7 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
             int occursEvery = 2;
             DailyRecurrence every = DailyRecurrence.Hours;
 
-            DailyFrecuency dailyFrecuency = new DailyFrecuency(false, true, null, occursEvery, every, starting, null);
+            DailyFrecuency dailyFrecuency = new DailyFrecuency(true, false, null, occursEvery, every, starting, null);
             Input input = new Input(executionDate);
 
             Action validate = () =>
@@ -209,21 +210,42 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
             validate.Should().Throw<ArgumentException>();
         }
 
+
         [Fact]
-        public void calculate_daily_frecuency_should_return_throw_exception_if_starting_is_not_valid_value()
+        public void validate_calculate_occurs_once_should_throw_exception_if_occurs_once_is_false_and_occurs_every_is_true()
         {
-            DateTime executionDate = new DateTime(2021, 01, 01, 00, 00, 00);
+            TimeOnly occursOnceAt = new TimeOnly(05, 30, 00);
+            TimeOnly starting = new TimeOnly(01, 30, 00);
             TimeOnly end = new TimeOnly(08, 30, 00);
-            int occursEvery = 2;
             DailyRecurrence every = DailyRecurrence.Hours;
-            DailyFrecuency dailyFrecuency = new DailyFrecuency(false, true, null, occursEvery, every, null, end);
+            DailyFrecuency dailyFrecuency = new DailyFrecuency(false, true, occursOnceAt, 2, every, starting, end);
+            Input input = new Input(new DateTime(2020, 10, 10));
 
             Action validate = () =>
             {
-                DailyFrecuencyCalculator.ValidateCalculateDailyFrecuency(dailyFrecuency);
+                DailyFrecuencyCalculator.ValidateCalculateOccursOnce(dailyFrecuency);
             };
 
             validate.Should().Throw<ArgumentException>();
+        }
+
+
+        [Fact]
+        public void validate_calculate_occurs_once_should_not_throw_exception_if_occurs_once_is_true_and_occurs_every_is_false()
+        {
+            TimeOnly occursOnceAt = new TimeOnly(05, 30, 00);
+            TimeOnly starting = new TimeOnly(01, 30, 00);
+            TimeOnly end = new TimeOnly(08, 30, 00);
+            DailyRecurrence every = DailyRecurrence.Hours;
+            DailyFrecuency dailyFrecuency = new DailyFrecuency(true, false, occursOnceAt, 2, every, starting, end);
+            Input input = new Input(new DateTime(2020, 10, 10));
+
+            Action validate = () =>
+            {
+                DailyFrecuencyCalculator.ValidateCalculateOccursOnce(dailyFrecuency);
+            };
+
+            validate.Should().NotThrow<DomainException>();
         }
 
 
@@ -255,7 +277,7 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
         public void validate_calculate_occurs_once_should_not_throw_exception_if_occurs_once_at_is_null()
         {
             TimeOnly occursOnce = new TimeOnly(10, 30, 00);
-            DailyFrecuency dailyFrecuency = new DailyFrecuency(false, true, occursOnce, 10, DailyRecurrence.Hours, null, null);
+            DailyFrecuency dailyFrecuency = new DailyFrecuency(true, false, occursOnce, 10, DailyRecurrence.Hours, null, null);
 
             Action validate = () =>
             {
@@ -265,5 +287,28 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
             validate.Should().NotThrow<ArgumentException>();
         }
 
+        [Fact]
+        public void calculate_occurs_once_should_contains_one_execution()
+        {
+            TimeOnly occursOnce = new TimeOnly(10, 30, 00);
+            DailyFrecuency dailyFrecuency = new DailyFrecuency(true, false, occursOnce, 10, DailyRecurrence.Hours, null, null);
+            Input input = new Input(new DateTime(2021, 01, 01));
+            
+            var output = DailyFrecuencyCalculator.CalculateOccursOnce(dailyFrecuency, input);
+            
+            output.ExecutionTime.Count.Should().Be(1);
+        }
+
+        [Fact]
+        public void calculate_occurs_once_should_contains_one_execution_equivalent_to_input_currrent_date_with_time_section_occurs_once()
+        {
+            TimeOnly occursOnce = new TimeOnly(10, 30, 00);
+            DailyFrecuency dailyFrecuency = new DailyFrecuency(true, false, occursOnce, 10, DailyRecurrence.Hours, null, null);
+            Input input = new Input(new DateTime(2021, 01, 01));
+
+            var output = DailyFrecuencyCalculator.CalculateOccursOnce(dailyFrecuency, input);
+
+            output.ExecutionTime[0].Should().Be(new DateTime(2021, 01, 01, 10, 30, 00));
+        }
     }
 }

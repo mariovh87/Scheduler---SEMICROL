@@ -11,7 +11,7 @@ namespace Semicrol.Scheduler.Application.UseCases
     public static class DailyFrecuencyCalculator
     {      
         public static Output CalculateOccursOnce(DailyFrecuency dailyFrecuency, Input input)
-        {
+         {
             ValidateCalculateOccursOnce(dailyFrecuency);
             Output output = new Output();
             output.AddExecution(SetOccursOnceTimeToDate(input.CurrentDate,dailyFrecuency.OccursOnceAt.Value));
@@ -28,6 +28,8 @@ namespace Semicrol.Scheduler.Application.UseCases
 
         public static void ValidateCalculateOccursOnce(DailyFrecuency dailyFrecuency)
         {
+            Ensure.That(dailyFrecuency.occursOnce).IsTrue();
+            Ensure.That(dailyFrecuency.occursEvery).IsFalse();
             Ensure.That(dailyFrecuency.OccursOnceAt, nameof(dailyFrecuency.OccursOnceAt)).IsNotNull();
         }
 
