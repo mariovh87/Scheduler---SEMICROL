@@ -87,7 +87,20 @@ namespace Semicrol.Scheduler.Domain.Test.Entities
         }
 
         [Fact]
-        public void the_config_constructor_should_not_throw_exception_if_the_is_true()
+        public void the_config_constructor_should_throw_exception_if_every_months_is_not_positive()
+        {
+            bool the = true;
+            MonthlyFrecuency frecuency = MonthlyFrecuency.First;
+            MonthlyDayType dayType = MonthlyDayType.Day;
+            int everyMonths = 0;
+
+            Action act = () => new MonthlyConfiguration(the, frecuency, dayType, everyMonths);
+
+            act.Should().Throw<ArgumentException>();
+        }
+
+        [Fact]
+        public void the_config_constructor_should_not_throw_exception_if_the_is_true_and_every_months_positive()
         {
             bool the = true;
             MonthlyFrecuency frecuency = MonthlyFrecuency.First;
@@ -212,6 +225,26 @@ namespace Semicrol.Scheduler.Domain.Test.Entities
             act.Should().Throw<ArgumentException>();
         }
 
+        [Fact]
+        public void properties_should_return_value_passed_in_constructor()
+        {
+            bool day = false;
+            int everyDay = 1;
+            int dayMonths = 1;
+            bool the = true;
+            MonthlyFrecuency frecuency = MonthlyFrecuency.First;
+            MonthlyDayType dayType = MonthlyDayType.Day;
+            int everyMonths = 1;
 
+            MonthlyConfiguration config = new MonthlyConfiguration(day, everyDay, dayMonths, the, frecuency, dayType, everyMonths);
+
+            config.Day.Should().Be(day);
+            config.EveryDay.Should().Be(everyDay);  
+            config.The.Should().Be(the);
+            config.DayMonths.Should().Be(dayMonths);
+            config.Frecuency.Should().Be(frecuency);
+            config.DayType.Should().Be(dayType);    
+            config.EveryMonths.Should().Be(everyMonths);
+        }
     }
 }
