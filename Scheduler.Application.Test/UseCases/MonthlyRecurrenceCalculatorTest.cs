@@ -125,7 +125,7 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
         }
 
         [Fact]
-        public void get_first_day_should_return_add_months_to_current_date_until_found_month_with_every_day()
+        public void get_first_day_should_return_add_months_to_current_date_with_last_day_month()
         {
             DateTime current = new DateTime(2021, 01, 31);
             int every = 30;
@@ -134,7 +134,7 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
 
             var result = MonthlyRecurrenceCalculator.GetFirstDate(current, every, everyMonths, limitDate);
 
-            result.Should().BeSameDateAs(new DateTime(2021, 03, 30));
+            result.Should().BeSameDateAs(new DateTime(2021, 02, 28));
         }
 
         [Fact]
@@ -198,7 +198,7 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
         }
 
         [Fact]
-        public void get_day_recurrences_should_return_dates_with_31_days()
+        public void get_day_recurrences_should_return_dates_month_last_day()
         {
             DateTime current = new DateTime(2021, 01, 01);
             DateTime limitStart = new DateTime(2021, 01, 01);
@@ -210,14 +210,19 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
 
             var result = MonthlyRecurrenceCalculator.GetDayRecurrences(current, limits, config);
 
-            result.Count.Should().Be(7);
+            result.Count.Should().Be(12);
             result[0].Should().BeSameDateAs(new DateTime(2021, 01, 31));
-            result[1].Should().BeSameDateAs(new DateTime(2021, 03, 31));
-            result[2].Should().BeSameDateAs(new DateTime(2021, 05, 31));
-            result[3].Should().BeSameDateAs(new DateTime(2021, 07, 31));
-            result[4].Should().BeSameDateAs(new DateTime(2021, 08, 31));
-            result[5].Should().BeSameDateAs(new DateTime(2021, 10, 31));
-            result[6].Should().BeSameDateAs(new DateTime(2021, 12, 31));
+            result[1].Should().BeSameDateAs(new DateTime(2021, 02, 28));
+            result[2].Should().BeSameDateAs(new DateTime(2021, 03, 31));
+            result[3].Should().BeSameDateAs(new DateTime(2021, 04, 30));
+            result[4].Should().BeSameDateAs(new DateTime(2021, 05, 31));
+            result[5].Should().BeSameDateAs(new DateTime(2021, 06, 30));
+            result[6].Should().BeSameDateAs(new DateTime(2021, 07, 31));
+            result[7].Should().BeSameDateAs(new DateTime(2021, 08, 31));
+            result[8].Should().BeSameDateAs(new DateTime(2021, 09, 30));
+            result[9].Should().BeSameDateAs(new DateTime(2021, 10, 31));
+            result[10].Should().BeSameDateAs(new DateTime(2021, 11, 30));
+            result[11].Should().BeSameDateAs(new DateTime(2021, 12, 31));
         }
 
         [Fact]

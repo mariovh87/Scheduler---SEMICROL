@@ -25,13 +25,14 @@ namespace Semicrol.Scheduler.Application.UseCases
             while (startDate <= limits.EndDate)
             {
                 startDate = startDate.AddMonths(config.DayMonths.Value);
-                if (CheckIfMonthHaveDay(startDate,config.EveryDay.Value))
+                startDate = new(startDate.Year, startDate.Month, 
+                    CheckIfMonthHaveDay(startDate, config.EveryDay.Value)
+                    ? config.EveryDay.Value
+                    : DateTime.DaysInMonth(startDate.Year, startDate.Month));                                       
+
+                if (startDate <= limits.EndDate)
                 {
-                    startDate = new(startDate.Year, startDate.Month, config.EveryDay.Value);
-                    if (startDate <= limits.EndDate)
-                    {
-                        recurrenceDays.Add(startDate);
-                    }                        
+                    recurrenceDays.Add(startDate);
                 }
             }
 
@@ -52,6 +53,10 @@ namespace Semicrol.Scheduler.Application.UseCases
                 if (CheckIfMonthHaveDay(startDate, everyDay))
                 {
                     return new(startDate.Year, startDate.Month, everyDay);
+                }
+                else
+                {
+                    return new(startDate.Year, startDate.Month, DateTime.DaysInMonth(startDate.Year, startDate.Month));
                 }
                 startDate = startDate.AddMonths(everyMonths);
             }
