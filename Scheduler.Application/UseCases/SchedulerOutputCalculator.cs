@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using EnsureThat;
 using Semicrol.Scheduler.Domain.Common;
 using Semicrol.Scheduler.Domain.Entities;
+using Semicrol.Scheduler.Domain.Entities.MonthlyConfiguration;
 
 namespace Semicrol.Scheduler.Application.UseCases
 {
@@ -13,7 +14,7 @@ namespace Semicrol.Scheduler.Application.UseCases
     {
         public static Output CalculateOutput(Input input, Configuration config, DailyFrecuency dailyFrecuency, WeeklyConfiguration weeklyConfig, Limits limits)
         {
-            Output output = new Output();
+            Output output = new();
             if (config.Type == SchedulerEnums.ConfigurationType.Once)
             {
                 config.OnceTimeAt.EnsureIsValidDate();
