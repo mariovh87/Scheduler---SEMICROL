@@ -430,10 +430,11 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
             var result = MonthlyRecurrenceCalculator.GetWeekDayForMonth(current, MonthlyFrecuency.Last);
 
             result.Count().Should().Be(5);
-            result.ElementAt(0).Should().BeSameDateAs(new DateTime(2021, 10, 3));
-            result.ElementAt(1).Should().BeSameDateAs(new DateTime(2021, 10, 10));
-            result.ElementAt(2).Should().BeSameDateAs(new DateTime(2021, 10, 17));
-            result.ElementAt(3).Should().BeSameDateAs(new DateTime(2021, 10, 24));
+            result.ElementAt(0).Should().BeSameDateAs(new DateTime(2021, 10, 01));
+            result.ElementAt(1).Should().BeSameDateAs(new DateTime(2021, 10, 08));
+            result.ElementAt(2).Should().BeSameDateAs(new DateTime(2021, 10, 15));
+            result.ElementAt(3).Should().BeSameDateAs(new DateTime(2021, 10, 22));
+            result.ElementAt(4).Should().BeSameDateAs(new DateTime(2021, 10, 29));
         }
 
         [Fact]

@@ -35,12 +35,12 @@ namespace Semicrol.Scheduler.Application.UseCases
 
         public static DateTime AddTime(DateTime executionDate, DailyRecurrence every, int occursEvery)
         {
-            switch (every)
+            return every switch
             {
-                case DailyRecurrence.Seconds: return executionDate.AddSeconds(occursEvery);
-                case DailyRecurrence.Minutes: return executionDate.AddMinutes(occursEvery);
-                default: return executionDate.AddHours(occursEvery);                                
-            }
+                DailyRecurrence.Seconds => executionDate.AddSeconds(occursEvery),
+                DailyRecurrence.Minutes => executionDate.AddMinutes(occursEvery),
+                _ => executionDate.AddHours(occursEvery),
+            };
         }
 
         public static DateTime SetOccursOnceTimeToDate(DateTime executionDate, TimeOnly occursOnce)
@@ -50,8 +50,8 @@ namespace Semicrol.Scheduler.Application.UseCases
 
         public static IList<DateTime> GetExecutions(DateTime executionDate, TimeOnly startingAt, TimeOnly endsAt, DailyRecurrence every, int occursEvery)
         {
-            DateTime addingTime = new DateTime(executionDate.Year, executionDate.Month, executionDate.Day, startingAt.Hour, startingAt.Minute, startingAt.Second);
-            DateTime ends = new DateTime(executionDate.Year, executionDate.Month, executionDate.Day, endsAt.Hour, endsAt.Minute, endsAt.Second);
+            DateTime addingTime = new(executionDate.Year, executionDate.Month, executionDate.Day, startingAt.Hour, startingAt.Minute, startingAt.Second);
+            DateTime ends = new(executionDate.Year, executionDate.Month, executionDate.Day, endsAt.Hour, endsAt.Minute, endsAt.Second);
             IList<DateTime> executions = new List<DateTime>();
             while (addingTime <= ends)
             {                        

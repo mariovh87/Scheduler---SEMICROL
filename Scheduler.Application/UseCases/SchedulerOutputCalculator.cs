@@ -31,5 +31,17 @@ namespace Semicrol.Scheduler.Application.UseCases
             return output;
         }
 
+
+        public static IList<DateTime> CalculateMonthlyWithDailyFrecuency(Input input, DailyFrecuency dailyFrecuency, MonthlyConfiguration monthlyConfig, Limits limits)
+        {
+            List<DateTime> output = new();
+            foreach(DateTime date in MonthlyRecurrenceCalculator.GetRecurrences(input.CurrentDate, limits, monthlyConfig))
+            {
+                output.AddRange(DailyFrecuencyCalculator.GetExecutions(date, dailyFrecuency));
+            }
+
+            return output.ToList();
+
+        }
     }
 }
