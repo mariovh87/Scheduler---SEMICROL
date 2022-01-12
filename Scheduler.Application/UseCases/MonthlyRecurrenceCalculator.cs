@@ -35,24 +35,7 @@ namespace Semicrol.Scheduler.Application.UseCases
             DateTime currentDay = DateTime.MinValue;
             while (currentDate <= endDate)
             {
-                switch (dayType)
-                {
-                    case MonthlyDayType.Monday:
-                    case MonthlyDayType.Tuesday:
-                    case MonthlyDayType.Wednesday:
-                    case MonthlyDayType.Thursday:
-                    case MonthlyDayType.Friday:
-                    case MonthlyDayType.Saturday:
-                    case MonthlyDayType.Sunday:
-                        currentDay = GetDayOfWeekInMonthOfFrecuency(currentDate, dayType, frecuency);
-                        break;
-                    case MonthlyDayType.Day:
-                        currentDay = GetDayForMonth(currentDate, frecuency);
-                        break;
-                    case MonthlyDayType.WeekendDay:
-                        currentDay = GetDayOfWeekendInMonthOfFrecuency(currentDate, frecuency);
-                        break;
-                }
+                currentDay = GetCurrentDay(currentDate, dayType, frecuency);
                 if (currentDay >= currentDate && currentDay <= endDate)
                 {
                     recurrenceDays.Add(currentDay);
@@ -60,6 +43,23 @@ namespace Semicrol.Scheduler.Application.UseCases
                 currentDate = new DateTime(currentDate.Year, currentDate.Month, 1).AddMonths(everyMonths);
             }
             return recurrenceDays;
+        }
+
+        public static DateTime GetCurrentDay(DateTime currentDate, MonthlyDayType dayType, MonthlyFrecuency frecuency)
+        {
+            return dayType switch
+            {
+                MonthlyDayType.Monday or
+                MonthlyDayType.Tuesday or
+                MonthlyDayType.Wednesday or
+                MonthlyDayType.Thursday or
+                MonthlyDayType.Friday or
+                MonthlyDayType.Saturday or
+                MonthlyDayType.Sunday => GetDayOfWeekInMonthOfFrecuency(currentDate, dayType, frecuency),
+                MonthlyDayType.Day => GetDayForMonth(currentDate, frecuency),
+                MonthlyDayType.WeekendDay => GetDayOfWeekendInMonthOfFrecuency(currentDate, frecuency),
+                _ => throw new ArgumentException(),
+            };
         }
 
         public static DateTime GetDayOfWeekInMonthOfFrecuency(DateTime currentStartDate, MonthlyDayType dayType, MonthlyFrecuency frecuency)

@@ -12,7 +12,7 @@ namespace Semicrol.Scheduler.Application.UseCases
 {
     public static class SchedulerOutputCalculator
     {
-        public static Output CalculateOutput(Input input, Configuration config, DailyFrecuency dailyFrecuency, WeeklyConfiguration weeklyConfig, Limits limits)
+        public static Output CalculateWeeklyOutput(Input input, Configuration config, DailyFrecuency dailyFrecuency, WeeklyConfiguration weeklyConfig, Limits limits)
         {
             Output output = new();
             if (config.Type == SchedulerEnums.ConfigurationType.Once)
@@ -31,6 +31,13 @@ namespace Semicrol.Scheduler.Application.UseCases
             return output;
         }
 
+        public static Output CalculateMonthlyOutput(Input input, DailyFrecuency dailyFrecuency, MonthlyConfiguration monthlyConfig, Limits limits)
+        {
+            return new Output 
+            {
+                ExecutionTime = CalculateMonthlyWithDailyFrecuency(input, dailyFrecuency, monthlyConfig, limits)
+            };
+        }
 
         public static IList<DateTime> CalculateMonthlyWithDailyFrecuency(Input input, DailyFrecuency dailyFrecuency, MonthlyConfiguration monthlyConfig, Limits limits)
         {

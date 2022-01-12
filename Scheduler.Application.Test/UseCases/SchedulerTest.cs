@@ -22,7 +22,7 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
           
             Action validate = () =>
             {
-                SchedulerOutputCalculator.CalculateOutput(input, config, dailyFrecuency, weeklyConfiguration, limits);
+                SchedulerOutputCalculator.CalculateWeeklyOutput(input, config, dailyFrecuency, weeklyConfiguration, limits);
             };
             validate.Should().Throw<DateRangeException>();
         }
@@ -38,7 +38,7 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
 
             Action validate = () =>
             {
-                SchedulerOutputCalculator.CalculateOutput(input, config, dailyFrecuency, weeklyConfiguration, limits);
+                SchedulerOutputCalculator.CalculateWeeklyOutput(input, config, dailyFrecuency, weeklyConfiguration, limits);
             };
             validate.Should().NotThrow<DateRangeException>();
         }
@@ -55,7 +55,7 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
             weeklyConfiguration.DaysOfWeek.CheckSaturday(true);
             Limits limits = new Limits(new DateTime(2021,01,01), new DateTime(2021,01,15));
 
-            var result = SchedulerOutputCalculator.CalculateOutput(input, config, dailyFrecuency, weeklyConfiguration,limits);
+            var result = SchedulerOutputCalculator.CalculateWeeklyOutput(input, config, dailyFrecuency, weeklyConfiguration,limits);
 
             result.Description.Should().Be("Occurs only once at 01/01/2021");
             result.ExecutionTime.Should().ContainEquivalentOf(config.OnceTimeAt.Value);
@@ -79,7 +79,7 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
             DailyFrecuency dailyFrecuency = new(false, true, null, occursEvery, every, starting, end);
 
 
-            var result = SchedulerOutputCalculator.CalculateOutput(input, config, dailyFrecuency, weeklyConfig, limits);
+            var result = SchedulerOutputCalculator.CalculateWeeklyOutput(input, config, dailyFrecuency, weeklyConfig, limits);
 
             result.ExecutionTime[0].Should().Be(new DateTime(2020, 12, 28, 01, 30, 00));
             result.ExecutionTime[1].Should().Be(new DateTime(2020, 12, 28, 03, 30, 00));

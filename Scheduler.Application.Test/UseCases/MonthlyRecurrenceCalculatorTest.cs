@@ -614,5 +614,119 @@ namespace Semicrol.Scheduler.Application.Test.UseCases
             result.ElementAt(3).Should().BeSameDateAs(new DateTime(2022, 04, 24));
 
         }
+
+        [Fact]
+        public void ConvertMonthlyFrecuency_Monday_Should_Return_DayOfWeek_Monday()
+        {
+            var result = MonthlyRecurrenceCalculator.ConvertMonthlyFrecuency(MonthlyDayType.Monday);
+
+            result.Should().Be(DayOfWeek.Monday);
+        }
+
+        [Fact]
+        public void ConvertMonthlyFrecuency_Tuesday_Should_Return_DayOfWeek_Tuesday()
+        {
+            var result = MonthlyRecurrenceCalculator.ConvertMonthlyFrecuency(MonthlyDayType.Tuesday);
+
+            result.Should().Be(DayOfWeek.Tuesday);
+        }
+
+        [Fact]
+        public void ConvertMonthlyFrecuency_Wednesday_Should_Return_DayOfWeek_Wednesday()
+        {
+            var result = MonthlyRecurrenceCalculator.ConvertMonthlyFrecuency(MonthlyDayType.Wednesday);
+
+            result.Should().Be(DayOfWeek.Wednesday);
+        }
+
+        [Fact]
+        public void ConvertMonthlyFrecuency_Thursday_Should_Return_DayOfWeek_Thursday()
+        {
+            var result = MonthlyRecurrenceCalculator.ConvertMonthlyFrecuency(MonthlyDayType.Thursday);
+
+            result.Should().Be(DayOfWeek.Thursday);
+        }
+
+        [Fact]
+        public void ConvertMonthlyFrecuency_Friday_Should_Return_DayOfWeek_Friday()
+        {
+            var result = MonthlyRecurrenceCalculator.ConvertMonthlyFrecuency(MonthlyDayType.Friday);
+
+            result.Should().Be(DayOfWeek.Friday);
+        }
+
+        [Fact]
+        public void ConvertMonthlyFrecuency_Saturday_Should_Return_DayOfWeek_Saturday()
+        {
+            var result = MonthlyRecurrenceCalculator.ConvertMonthlyFrecuency(MonthlyDayType.Saturday);
+
+            result.Should().Be(DayOfWeek.Saturday);
+        }
+
+        [Fact]
+        public void ConvertMonthlyFrecuency_Sunday_Should_Return_DayOfWeek_Sunday()
+        {
+            var result = MonthlyRecurrenceCalculator.ConvertMonthlyFrecuency(MonthlyDayType.Sunday);
+
+            result.Should().Be(DayOfWeek.Sunday);
+        }
+
+        [Fact]
+        public void GetCurrentDay_MonthlyDayType_Day_Should_Return_GetDayForMonth_Result()
+        {
+            DateTime current = new(2021, 01, 01);
+            MonthlyConfiguration config = new(true, MonthlyFrecuency.Last, MonthlyDayType.Day, 3);
+            var result = MonthlyRecurrenceCalculator.GetCurrentDay(current, config.DayType.Value, config.Frecuency.Value);
+
+            result.Should().BeSameDateAs(new DateTime(2021, 01, 31));
+        }
+
+        [Fact]
+        public void GetCurrentDay_MonthlyDayType_WeekendDay_Should_Return_GetDayOfWeekendInMonthOfFrecuency_Result()
+        {
+            DateTime current = new(2021, 01, 01);
+            MonthlyConfiguration config = new(true, MonthlyFrecuency.First, MonthlyDayType.WeekendDay, 3);
+            var result = MonthlyRecurrenceCalculator.GetCurrentDay(current, config.DayType.Value, config.Frecuency.Value);
+
+            result.Should().BeSameDateAs(new DateTime(2021, 01, 02));
+        }
+
+        [Fact]
+        public void GetCurrentDay_MonthlyDayType_DayOfWeek_Should_Return_GetDayOfWeekInMonthOfFrecuency_Result()
+        {
+            DateTime current = new(2021, 01, 01);
+            MonthlyConfiguration config = new(true, MonthlyFrecuency.First, MonthlyDayType.Wednesday, 3);
+            var result = MonthlyRecurrenceCalculator.GetCurrentDay(current, config.DayType.Value, config.Frecuency.Value);
+
+            result.Should().BeSameDateAs(new DateTime(2021, 01, 06));
+        }
+
+        [Fact]
+        public void GetGetRecurrences_Config_Day_Should_Return_Dates_GetDayRecurrences_Result()
+        {
+            DateTime current = new(2021, 01, 01);
+            DateTime limitStart = new(2021, 01, 01);
+            DateTime limitEnd = new(2022, 01, 01);
+            Limits limits = new(limitStart, limitEnd);
+            int everyDay = 31;
+            int everyMonths = 1;
+            MonthlyConfiguration config = new(true, everyDay, everyMonths);
+
+            var result = MonthlyRecurrenceCalculator.GetRecurrences(current, limits, config);
+
+            result.Count.Should().Be(12);
+            result[0].Should().BeSameDateAs(new DateTime(2021, 01, 31));
+            result[1].Should().BeSameDateAs(new DateTime(2021, 02, 28));
+            result[2].Should().BeSameDateAs(new DateTime(2021, 03, 31));
+            result[3].Should().BeSameDateAs(new DateTime(2021, 04, 30));
+            result[4].Should().BeSameDateAs(new DateTime(2021, 05, 31));
+            result[5].Should().BeSameDateAs(new DateTime(2021, 06, 30));
+            result[6].Should().BeSameDateAs(new DateTime(2021, 07, 31));
+            result[7].Should().BeSameDateAs(new DateTime(2021, 08, 31));
+            result[8].Should().BeSameDateAs(new DateTime(2021, 09, 30));
+            result[9].Should().BeSameDateAs(new DateTime(2021, 10, 31));
+            result[10].Should().BeSameDateAs(new DateTime(2021, 11, 30));
+            result[11].Should().BeSameDateAs(new DateTime(2021, 12, 31));
+        }
     }
 }
